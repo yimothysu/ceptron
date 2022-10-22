@@ -8,23 +8,6 @@ const { history } = require("./history.js");
 
 const electron = require("electron");
 
-function createHelpPage() {
-  const screenDimensions = electron.screen.getPrimaryDisplay().size;
-  const windowWidth = Math.round(screenDimensions.width * 0.6);
-  const windowHeight = Math.round(screenDimensions.height * 0.61);
-
-  const helpWindow = new BrowserWindow({
-    width: windowWidth,
-    height: windowHeight,
-    webPreferences: {
-      preload: path.join(__dirname, "preload.js"),
-    },
-    transparent: true,
-    frame: false,
-  });
-  helpWindow.loadFile("help.html");
-}
-
 let historyIndex = 0;
 
 function executeCommand(mainWindow) {
@@ -117,7 +100,7 @@ function createHistory() {
 function createHelpPage() {
   const screenDimensions = electron.screen.getPrimaryDisplay().size;
   const windowWidth = Math.round(screenDimensions.width * 0.6);
-  const windowHeight = Math.round(screenDimensions.height * 0.5);
+  const windowHeight = Math.round(screenDimensions.height * 0.62);
 
   const helpWindow = new BrowserWindow({
     width: windowWidth,
@@ -129,6 +112,14 @@ function createHelpPage() {
     frame: false,
   });
   helpWindow.loadFile("help.html");
+
+  helpWindow.webContents.on("before-input-event", (event, input) => {
+    if (input.type == "keyDown") {
+      if (input.key === "Escape") {
+        helpWindow.close();
+      }
+    }
+  });
 }
 
 function createCopyConfirmation(err = "") {
