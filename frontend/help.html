@@ -9,15 +9,22 @@
   <body>
     <div id = "background">
       <div id = "title"><b>COMMANDS</b></div>
-      <div id = "commands">img { keywords of image }</div>
+      <div id = "topCommand"><span style="background-color: rgb(30, 30, 30)">img { keywords of image }</span></div>
       <div id = "description">Generates an image based on a description</div>
-      <div id = "description">ex: img bird flying in the sky</div>
-      <div id = "commands">sum { url }   or   sum { 10 } { url }</div>
+      <div id = "description"><i>ex: img bird flying in the sky</i></div>
+      <div id = "commands"><span style="background-color: rgb(30, 30, 30)">sum { url }</span>   or   <span style="background-color: rgb(30, 30, 30)">sum { 10 } { url }</span></div>
       <div id = "description">Generates an automatic summary of the url in 10 sentences by default</div>
-      <div id = "description">ex: sum https://en.wikipedia.org/wiki/Perceptron</div>
-      <div id = "commands">sum { 3 } { url }</div>
+      <div id = "description"><i>ex: sum https://en.wikipedia.org/wiki/Perceptron</i></div>
+      <div id = "commands"><span style="background-color: rgb(30, 30, 30)">sum { 3 } { url }</span></div>
       <div id = "description">Generates an automatic summary of the url in 3 sentences</div>
-      <div id = "description">ex: sum 3 https://en.wikipedia.org/wiki/Perceptron</div>
+      <div id = "description"><i>ex: sum 3 https://en.wikipedia.org/wiki/Perceptron</i></div>
+      <div id = "title"><b>HOTKEY CONTROLS</b></div>
+      <div id = "topCommand"><span style="background-color: rgb(30, 30, 30)">Ctrl + Shift + C</span> [Windows]   or   <span style="background-color: rgb(30, 30, 30)">Cmd + Shift + C</span> [Mac]</div>
+      <div id = "description">Opens command field</div>
+      <div id = "commands"><span style="background-color: rgb(30, 30, 30)">esc</span> key</div>
+      <div id = "description">Exits command field</div>
+      <div id = "commands"><span style="background-color: rgb(30, 30, 30)">Enter</span> key</div>
+      <div id = "description">Executes typed command</div>
     </div>
     <!-- You can also require other files to run in this process -->
     <script src="./renderer.js"></script>
