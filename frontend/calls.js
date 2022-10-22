@@ -1,9 +1,34 @@
-function generateImage(prompt) {
-  console.log(prompt);
+async function generateImage(prompt) {
+  return prompt;
+  /*
+	Route: GET /generate/image
+	headers: include prompt
+  */
+  //   return fetch("https://localhost:8000/generate/image", {
+  //     method: "GET",
+  //     headers: {
+  //       prompt: prompt,
+  //     },
+  //   })
+  //     .then((res) => res.json)
+  //     .then((json) => {
+  //       return json;
+  //     });
 }
 
-function generateSummary(url) {
-  console.log(url);
+async function generateSummary(url) {
+  return url;
+  //   return fetch("https://localhost:8000/generate/summary", {
+  //     method: "GET",
+  //     headers: {
+  //       prompt: prompt,
+  //     },
+  //   })
+  //     .then((res) => res.json)
+  //     .then((json) => {
+  //       return json;
+  //     });
+  //   return url;
 }
 module.exports = {
   generateImage,

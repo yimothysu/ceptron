@@ -2,11 +2,30 @@
 
 /* Add styles here to customize the appearance of your app */
 
+@font-face {
+  font-family: Raleway;
+  src: url(fonts/Raleway-VariableFont_wght.ttf);
+}
+
+* {
+  font-family: Raleway;
+}
+
 #cmdField {
   width: 98.6%;
   height: 100%;
-  font-size: 3.62em;
+  font-size: 3.4em;
+  color: white;
   outline: none !important;
-  border:solid rgb(121, 237, 255);
   border-color: transparent;
+  background-color: rgba(128, 128, 128, 0.6);
+  border-radius: 10px;
+}
+
+#copiedToClipboard {
+  display: "flex";
+  justify-content: "center";
+  align-items: "center";
+  color: white;
+  font-size: 3.4em;
 }

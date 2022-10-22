@@ -1,6 +1,6 @@
 // Modules to control application life and create native browser window
 const { processCommands } = require("./commands.js");
-const { app, BrowserWindow, globalShortcut } = require("electron");
+const { app, BrowserWindow, globalShortcut, clipboard } = require("electron");
 const path = require("path");
 const { x } = require("process");
 
@@ -8,9 +8,9 @@ const electron = require("electron");
 
 function createWindow() {
   // Create the browser window.
-     const screenDimensions = electron.screen.getPrimaryDisplay().size;
-     const windowWidth = Math.round(screenDimensions.width * .60);
-     const windowHeight = Math.round(screenDimensions.height * .11);
+  const screenDimensions = electron.screen.getPrimaryDisplay().size;
+  const windowWidth = Math.round(screenDimensions.width * 0.6);
+  const windowHeight = Math.round(screenDimensions.height * 0.11);
   const mainWindow = new BrowserWindow({
     width: windowWidth,
     height: windowHeight,
@@ -18,9 +18,33 @@ function createWindow() {
       preload: path.join(__dirname, "preload.js"),
     },
     frame: false,
+    transparent: true,
   });
   // and load the index.html of the app.
   mainWindow.loadFile("index.html");
+  // copiedWindow.loadFile("copy.html");
+  // copiedWindow.hide();
+  mainWindow.webContents.on("before-input-event", (event, input) => {
+    if (input.key === "Escape") {
+      mainWindow.hide();
+    } else if (input.key === "Enter") {
+      mainWindow.hide();
+      mainWindow.webContents
+        .executeJavaScript(`document.querySelector('#cmdField').value`, true)
+        .then(function (result) {
+          processCommands(result).then((output) => {
+            console.log(output);
+            if (typeof output == "string") clipboard.writeText(output);
+            else clipboard.writeImage(output);
+          });
+          //       copiedWindow.show();
+        });
+      mainWindow.webContents.executeJavaScript(
+        `document.querySelector('#cmdField').value = ""`,
+        true
+      );
+    }
+  });
 
   // Open the DevTools.
   // mainWindow.webContents.openDevTools()
@@ -32,13 +56,11 @@ function createWindow() {
 app.whenReady().then(() => {
   console.log("Ready");
   const ret = globalShortcut.register("CommandOrControl+Shift+C", () => {
-    createWindow();
-  });
-  const esc = globalShortcut.register("Escape", () => {
-    BrowserWindow.getAllWindows()[0].close();
-  });
-  const ent = globalShortcut.register("Enter", () => {
-    
+    if (!BrowserWindow.getAllWindows()[0]) {
+      createWindow();
+    } else {
+      BrowserWindow.getAllWindows()[0].show();
+    }
   });
 
   app.on("activate", function () {
@@ -47,7 +69,6 @@ app.whenReady().then(() => {
     if (BrowserWindow.getAllWindows().length === 0) createWindow();
   });
 });
-
 
 // Quit when all windows are closed, except on macOS. There, it's common
 // for applications and their menu bar to stay active until the user quits
