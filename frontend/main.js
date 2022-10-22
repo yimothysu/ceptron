@@ -1,15 +1,16 @@
 // Modules to control application life and create native browser window
+const { processCommands } = require("./commands.js");
 const { app, BrowserWindow, globalShortcut } = require("electron");
 const path = require("path");
-const { process } = require("process");
+const { x } = require("process");
 
 const electron = require("electron");
 
 function createWindow() {
   // Create the browser window.
-     const screenDimensions = electron.screen.getPrimaryDisplay().size;
-     const windowWidth = Math.round(screenDimensions.width * .60);
-     const windowHeight = Math.round(screenDimensions.height * .15);
+  const screenDimensions = electron.screen.getPrimaryDisplay().size;
+  const windowWidth = Math.round(screenDimensions.width * 0.6);
+  const windowHeight = Math.round(screenDimensions.height * 0.15);
   const mainWindow = new BrowserWindow({
     width: windowWidth,
     height: windowHeight,
@@ -34,9 +35,7 @@ app.whenReady().then(() => {
     createWindow();
   });
   const esc = globalShortcut.register("Escape", () => {
-    BrowserWindow.getAllWindows().forEach(function (win) {
-      win.close();
-    });
+    BrowserWindow.getAllWindows()[0].close();
   });
 
   app.on("activate", function () {
