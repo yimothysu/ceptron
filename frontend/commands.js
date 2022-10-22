@@ -1,4 +1,5 @@
 const { generateImage, generateSummary } = require("./calls.js");
+const { cache } = require("./cache.js");
 
 function splitFirstSpace(str) {
   const index = str.indexOf(" ");
@@ -6,6 +7,9 @@ function splitFirstSpace(str) {
 }
 
 async function processCommands(command) {
+  if (cache.has(command)) {
+    return cache.get(command);
+  }
   let [cmd, args] = splitFirstSpace(command);
   let output = "Error Finding Command";
   if (["image", "img", "i"].includes(cmd)) {
