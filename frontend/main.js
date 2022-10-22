@@ -1,4 +1,5 @@
 // Modules to control application life and create native browser window
+const { processCommands } = require("./commands.js");
 const { app, BrowserWindow, globalShortcut } = require("electron");
 const path = require("path");
 const { x } = require("process");
@@ -35,14 +36,6 @@ app.whenReady().then(() => {
   });
   const esc = globalShortcut.register("Escape", () => {
     BrowserWindow.getAllWindows()[0].close();
-    // BrowserWindow.getAllWindows().forEach(function (win) {
-    //   win.close();
-    // });
-  });
-  const ent = globalShortcut.register("Enter", () => {
-    BrowserWindow.getAllWindows().forEach(function (win) {
-      
-    });
   });
 
   app.on("activate", function () {
