@@ -9,9 +9,7 @@ function processCommands(command) {
   let [cmd, args] = splitFirstSpace(command);
 
   if (["image", "img", "i"].includes(cmd)) {
-    generateImage(
-      args
-    );
+    generateImage(args);
   }
 }
 

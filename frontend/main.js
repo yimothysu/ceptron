@@ -20,15 +20,6 @@ function createWindow() {
     frame: false,
     transparent: true,
   });
-  // const copiedWindow = new BrowserWindow({
-  //   width: windowWidth,
-  //   height: windowHeight,
-  //   webPreferences: {
-  //     preload: path.join(__dirname, "preload.js"),
-  //   },
-  //   frame: false,
-  //   transparent: true,
-  // });
   // and load the index.html of the app.
   mainWindow.loadFile("index.html");
   // copiedWindow.loadFile("copy.html");
@@ -38,12 +29,13 @@ function createWindow() {
       mainWindow.hide();
     } else if (input.key === "Enter") {
       mainWindow.hide();
-      mainWindow.webContents.executeJavaScript(`document.querySelector('#cmdField').value`, true)
+      mainWindow.webContents
+        .executeJavaScript(`document.querySelector('#cmdField').value`, true)
         .then(function (result) {
-	        console.log(result)
-        processCommands(result);
- //       copiedWindow.show();
-      })
+          console.log(result);
+          processCommands(result);
+          //       copiedWindow.show();
+        });
     }
   });
 
