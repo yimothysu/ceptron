@@ -1,9 +1,9 @@
 async function generateImage(prompt) {
-  console.log(prompt);
+  return prompt;
 }
 
 async function generateSummary(url) {
-  console.log(url);
+  return url;
 }
 module.exports = {
   generateImage,

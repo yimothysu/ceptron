@@ -1,6 +1,6 @@
 // Modules to control application life and create native browser window
 const { processCommands } = require("./commands.js");
-const { app, BrowserWindow, globalShortcut } = require("electron");
+const { app, BrowserWindow, globalShortcut, clipboard } = require("electron");
 const path = require("path");
 const { x } = require("process");
 
@@ -32,8 +32,11 @@ function createWindow() {
       mainWindow.webContents
         .executeJavaScript(`document.querySelector('#cmdField').value`, true)
         .then(function (result) {
-          console.log(result);
-          processCommands(result);
+          processCommands(result).then((output) => {
+            console.log(output);
+            if (typeof output == "string") clipboard.writeText(output);
+            else clipboard.writeImage(output);
+          });
           //       copiedWindow.show();
         });
       mainWindow.webContents.executeJavaScript(

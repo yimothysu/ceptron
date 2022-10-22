@@ -7,12 +7,13 @@ function splitFirstSpace(str) {
 
 async function processCommands(command) {
   let [cmd, args] = splitFirstSpace(command);
-
+  let output = "Error Finding Command";
   if (["image", "img", "i"].includes(cmd)) {
-    generateImage(args);
+    output = generateImage(args);
   } else if (["s", "sum", "summ", "summary"].includes(cmd)) {
-    generateSummary(args);
+    output = generateSummary(args);
   }
+  return output;
 }
 
 module.exports = {
