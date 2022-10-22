@@ -1,7 +1,9 @@
 from fastapi import FastAPI
 
-app = FastAPI()
+import summarize
 
+app = FastAPI()
+app.include_router(summarize.router)
 
 @app.get("/api/")
 async def root():
