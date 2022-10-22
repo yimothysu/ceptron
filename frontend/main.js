@@ -31,7 +31,7 @@ function createCopyConfirmation(success) {
   }
 
   setTimeout(() => {
-    copyWindow.hide();
+    copyWindow.close();
   }, 750);
 }
 

@@ -1,3 +1,9 @@
+const BASE_URL = "https://ceptron.tech/api/";
+
+function absoluteURL(url) {
+  return BASE_URL + url;
+}
+
 async function generateImage(prompt) {
   return prompt;
   /*
@@ -5,7 +11,7 @@ async function generateImage(prompt) {
 	Headers: prompt
 	Return: image generated from stable diffusion
   */
-  //   return fetch("https://localhost:8000/generate/image", {
+  //   return fetch(absoluteURL("generate/image"), {
   //     method: "GET",
   //     headers: {
   //       prompt: prompt,
@@ -24,7 +30,7 @@ async function generateSummary(url) {
 	Headers: prompt
 	Return: summary text generated from url with sumy
   */
-  //   return fetch("https://localhost:8000/generate/summary", {
+  //   return fetch(absoluteURL("generate/image"), {
   //     method: "GET",
   //     headers: {
   //       prompt: prompt,
