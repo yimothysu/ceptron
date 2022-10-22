@@ -2,7 +2,8 @@ async function generateImage(prompt) {
   return prompt;
   /*
 	Route: GET /generate/image
-	headers: include prompt
+	Headers: prompt
+	Return: image generated from stable diffusion
   */
   //   return fetch("https://localhost:8000/generate/image", {
   //     method: "GET",
@@ -18,6 +19,11 @@ async function generateImage(prompt) {
 
 async function generateSummary(url) {
   return url;
+  /*
+	Route: GET /generate/summary
+	Headers: prompt
+	Return: summary text generated from url with sumy
+  */
   //   return fetch("https://localhost:8000/generate/summary", {
   //     method: "GET",
   //     headers: {
