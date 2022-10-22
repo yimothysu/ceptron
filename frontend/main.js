@@ -27,6 +27,10 @@ function executeCommand(mainWindow) {
           if (command != "") {
             createCopyConfirmation(output);
           }
+        } else if (output == "help") {
+          createHelpPage();
+        } else if (output == "history") {
+          createHistory();
         } else {
           if (typeof output == "string") {
             clipboard.writeText(output);
@@ -59,6 +63,57 @@ function navigateHistory(mainWindow, iter) {
   }
 }
 
+function createHistory() {
+  const screenDimensions = electron.screen.getPrimaryDisplay().size;
+  const windowWidth = Math.round(screenDimensions.width * 0.6);
+  const windowHeight = Math.round(screenDimensions.height * 0.3);
+  const historyWindow = new BrowserWindow({
+    width: windowWidth,
+    height: windowHeight,
+    webPreferences: {
+      preload: path.join(__dirname, "preload.js"),
+    },
+    frame: false,
+    transparent: true,
+  });
+  historyWindow.loadFile("history.html");
+
+  historyWindow.webContents.on("before-input-event", (event, input) => {
+    if (input.type == "keyDown") {
+      if (input.key === "Escape") {
+        historyWindow.close();
+      }
+    }
+  });
+
+  history.forEach((item) => {
+    console.log(item);
+    // let itemHTML = `<div class="historyItem">${item}</div>`;
+    let itemHTML = `<p>${item}</p>`;
+    historyWindow.webContents.executeJavaScript(
+      `document.querySelector('#commandHistory').innerHTML = document.querySelector('#commandHistory').innerHTML + "${itemHTML}"`,
+      true
+    );
+  });
+}
+
+function createHelpPage() {
+  const screenDimensions = electron.screen.getPrimaryDisplay().size;
+  const windowWidth = Math.round(screenDimensions.width * 0.6);
+  const windowHeight = Math.round(screenDimensions.height * 0.61);
+
+  const helpWindow = new BrowserWindow({
+    width: windowWidth,
+    height: windowHeight,
+    webPreferences: {
+      preload: path.join(__dirname, "preload.js"),
+    },
+    transparent: true,
+    frame: false,
+  });
+  helpWindow.loadFile("help.html");
+}
+
 function createCopyConfirmation(err = "") {
   const screenDimensions = electron.screen.getPrimaryDisplay().size;
   const windowWidth = Math.round(screenDimensions.width * 0.6);
@@ -80,11 +135,15 @@ function createCopyConfirmation(err = "") {
       `document.querySelector('#copiedToClipboard').textContent = "${err}"`,
       true
     );
+    copyWindow.webContents.executeJavaScript(
+      `document.querySelector('#copiedToClipboard').style.color = "red"`,
+      true
+    );
   }
 
   setTimeout(() => {
     copyWindow.close();
-  }, 750);
+  }, 500);
 }
 
 function createWindow() {
@@ -103,10 +162,8 @@ function createWindow() {
   });
   // and load the index.html of the app.
   mainWindow.loadFile("index.html");
-  // copiedWindow.loadFile("copy.html");
-  // copiedWindow.hide();
   mainWindow.webContents.on("before-input-event", (event, input) => {
-    if (input.type == "keyUp") {
+    if (input.type == "keyDown") {
       if (input.key === "Escape") {
         mainWindow.hide();
       } else if (input.key === "Enter") {

@@ -27,7 +27,7 @@ async function generateSummary(url, n_sentences = 10) {
 	Return: summary text generated from url with sumy
   */
   return axios
-    .get(absoluteURL(`summarize?url=${url}?sentence_count=${n_sentences}`))
+    .get(absoluteURL(`summarize?url=${url}&sentence_count=${n_sentences}`))
     .then((res) => {
       return res;
     });
