@@ -12,3 +12,11 @@
   background-color: rgba(128, 128, 128, 0.6);
   border-radius: 10px;
 }
+
+#copiedToClipboard {
+  display: "flex";
+  justify-content: "center";
+  align-items: "center";
+  color: white;
+  font-size: 3.4em;
+}
