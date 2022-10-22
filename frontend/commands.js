@@ -32,6 +32,8 @@ async function processCommands(command) {
     return summaryCommand(cmd, args);
   } else if (["help", "h"].includes(command) || ["help", "h"].includes(cmd)) {
     return "help";
+  } else if (["history"].includes(command)) {
+    return "history";
   }
   return "Error: Invalid Command";
 }

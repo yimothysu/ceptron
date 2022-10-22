@@ -70,3 +70,10 @@
   display: block;
 }
 
+p {
+  color: black;
+  font-size: 30px;
+  background-color: white;
+  margin-top: 0;
+  margin-bottom: 0;
+}
