@@ -37,6 +37,9 @@ app.whenReady().then(() => {
   const esc = globalShortcut.register("Escape", () => {
     BrowserWindow.getAllWindows()[0].close();
   });
+  const ent = globalShortcut.register("Enter", () => {
+    
+  });
 
   app.on("activate", function () {
     // On macOS it's common to re-create a window in the app when the
