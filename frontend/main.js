@@ -3,8 +3,11 @@ const { processCommands } = require("./commands.js");
 const { app, BrowserWindow, globalShortcut, clipboard } = require("electron");
 const path = require("path");
 const { x } = require("process");
+const { cache } = require("./cache.js");
 
 const electron = require("electron");
+
+let history = [];
 
 function createCopyConfirmation(success) {
   const screenDimensions = electron.screen.getPrimaryDisplay().size;
@@ -56,14 +59,17 @@ function createWindow() {
     if (input.key === "Escape") {
       mainWindow.hide();
     } else if (input.key === "Enter") {
+      // Input Command
       mainWindow.hide();
       mainWindow.webContents
         .executeJavaScript(`document.querySelector('#cmdField').value`, true)
-        .then(function (result) {
-          processCommands(result).then((output) => {
+        .then(function (command) {
+          history.push(command);
+          processCommands(command).then((output) => {
+            cache.set(command, output);
             console.log(output);
             if (output == "Error Finding Command") {
-              if (result != "") {
+              if (command != "") {
                 createCopyConfirmation(false);
               }
             } else {
@@ -73,12 +79,14 @@ function createWindow() {
               } else clipboard.writeImage(output);
             }
           });
-          //       copiedWindow.show();
         });
       mainWindow.webContents.executeJavaScript(
         `document.querySelector('#cmdField').value = ""`,
         true
       );
+    } else if (input.key === "ArrowUp" || input.key === "ArrowDown") {
+      //   let iter = -1;
+      //   if (input.key === "ArrayDown") iter = 1;
     }
   });
 

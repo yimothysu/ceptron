@@ -24,23 +24,24 @@ async function generateImage(prompt) {
 }
 
 async function generateSummary(url) {
+  let n_sentences = 10;
   return url;
   /*
 	Route: GET /generate/summary
 	Headers: prompt
 	Return: summary text generated from url with sumy
   */
-  //   return fetch(absoluteURL("generate/image"), {
+  //   return fetch(absoluteURL("summarize"), {
   //     method: "GET",
   //     headers: {
-  //       prompt: prompt,
+  //       url: url,
+  //       sentence_count: n_sentences,
   //     },
   //   })
   //     .then((res) => res.json)
   //     .then((json) => {
   //       return json;
   //     });
-  //   return url;
 }
 module.exports = {
   generateImage,
