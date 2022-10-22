@@ -80,7 +80,7 @@
   display: block;
 }
 
-p {
+.cmd {
   color: black;
   font-size: 30px;
   background-color: white;
