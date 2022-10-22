@@ -1,8 +1,8 @@
-function generateImage(prompt) {
+async function generateImage(prompt) {
   console.log(prompt);
 }
 
-function generateSummary(url) {
+async function generateSummary(url) {
   console.log(url);
 }
 module.exports = {

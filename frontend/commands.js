@@ -5,7 +5,7 @@ function splitFirstSpace(str) {
   return [str.substring(0, index), str.substring(index + 1)];
 }
 
-function processCommands(command) {
+async function processCommands(command) {
   let [cmd, args] = splitFirstSpace(command);
 
   if (["image", "img", "i"].includes(cmd)) {
