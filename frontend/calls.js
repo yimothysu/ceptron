@@ -42,6 +42,7 @@ async function generateSummary(url) {
   //     });
   //   return url;
 }
+
 module.exports = {
   generateImage,
   generateSummary,

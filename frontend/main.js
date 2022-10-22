@@ -6,6 +6,23 @@ const { x } = require("process");
 
 const electron = require("electron");
 
+function createHelpPage() {
+  const screenDimensions = electron.screen.getPrimaryDisplay().size;
+  const windowWidth = Math.round(screenDimensions.width * 0.6);
+  const windowHeight = Math.round(screenDimensions.height * 0.5);
+
+  const helpWindow = new BrowserWindow({
+    width: windowWidth,
+    height: windowHeight,
+    webPreferences: {
+      preload: path.join(__dirname, "preload.js"),
+    },
+    transparent: true,
+    frame: false,
+  });
+  helpWindow.loadFile("help.html");
+}
+
 function createCopyConfirmation(success) {
   const screenDimensions = electron.screen.getPrimaryDisplay().size;
   const windowWidth = Math.round(screenDimensions.width * 0.6);
@@ -28,11 +45,15 @@ function createCopyConfirmation(success) {
       `document.querySelector('#copiedToClipboard').textContent = "Error: Command Not Found"`,
       true
     );
+    copyWindow.webContents.executeJavaScript(
+      `document.querySelector('#copiedToClipboard').style.color = "red"`,
+      true
+    );
   }
 
   setTimeout(() => {
     copyWindow.close();
-  }, 750);
+  }, 1000);
 }
 
 function createWindow() {
@@ -51,8 +72,6 @@ function createWindow() {
   });
   // and load the index.html of the app.
   mainWindow.loadFile("index.html");
-  // copiedWindow.loadFile("copy.html");
-  // copiedWindow.hide();
   mainWindow.webContents.on("before-input-event", (event, input) => {
     if (input.key === "Escape") {
       mainWindow.hide();
@@ -65,14 +84,15 @@ function createWindow() {
             console.log(output);
             if (output == "Error Finding Command") {
               createCopyConfirmation(false);
-            } else {
-              if (typeof output == "string") {
-                clipboard.writeText(output);
-                createCopyConfirmation(true);
-              } else clipboard.writeImage(output);
+            } else if (output == "help") {
+                createHelpPage();
+              } else {
+                if (typeof output == "string") {
+                  clipboard.writeText(output);
+                  createCopyConfirmation(true);
+                } else clipboard.writeImage(output);
             }
           });
-          //       copiedWindow.show();
         });
       mainWindow.webContents.executeJavaScript(
         `document.querySelector('#cmdField').value = ""`,
