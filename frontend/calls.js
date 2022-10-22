@@ -13,11 +13,7 @@ async function generateImage(prompt) {
 	Return: image generated from stable diffusion
   */
   //   return axios
-  //     .get(absoluteURL("generate/image"), {
-  //       headers: {
-  //         prompt: prompt,
-  //       },
-  //     })
+  //     .get(absoluteURL(`generate/image?prompt=${prompt}`))
   //     .then((res) => res.json)
   //     .then((json) => {
   //       return json;
@@ -31,12 +27,7 @@ async function generateSummary(url, n_sentences = 10) {
 	Return: summary text generated from url with sumy
   */
   return axios
-    .get(absoluteURL("summarize"), {
-      headers: {
-        url: url,
-        sentence_count: n_sentences,
-      },
-    })
+    .get(absoluteURL(`summarize?url=${url}?sentence_count=${n_sentences}`))
     .then((res) => {
       return res;
     });
