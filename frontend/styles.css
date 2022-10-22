@@ -2,6 +2,15 @@
 
 /* Add styles here to customize the appearance of your app */
 
+@font-face {
+  font-family: Raleway;
+  src: url(fonts/Raleway-VariableFont_wght.ttf);
+}
+
+* {
+  font-family: Raleway;
+}
+
 #cmdField {
   width: 98.6%;
   height: 100%;
