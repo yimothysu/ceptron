@@ -1,7 +1,7 @@
 // Modules to control application life and create native browser window
 const { app, BrowserWindow, globalShortcut } = require("electron");
 const path = require("path");
-const { process } = require("process");
+const { x } = require("process");
 
 const electron = require("electron");
 
@@ -9,7 +9,7 @@ function createWindow() {
   // Create the browser window.
      const screenDimensions = electron.screen.getPrimaryDisplay().size;
      const windowWidth = Math.round(screenDimensions.width * .60);
-     const windowHeight = Math.round(screenDimensions.height * .15);
+     const windowHeight = Math.round(screenDimensions.height * .11);
   const mainWindow = new BrowserWindow({
     width: windowWidth,
     height: windowHeight,
@@ -34,8 +34,14 @@ app.whenReady().then(() => {
     createWindow();
   });
   const esc = globalShortcut.register("Escape", () => {
+    BrowserWindow.getAllWindows()[0].close();
+    // BrowserWindow.getAllWindows().forEach(function (win) {
+    //   win.close();
+    // });
+  });
+  const ent = globalShortcut.register("Enter", () => {
     BrowserWindow.getAllWindows().forEach(function (win) {
-      win.close();
+      
     });
   });
 
@@ -45,6 +51,7 @@ app.whenReady().then(() => {
     if (BrowserWindow.getAllWindows().length === 0) createWindow();
   });
 });
+
 
 // Quit when all windows are closed, except on macOS. There, it's common
 // for applications and their menu bar to stay active until the user quits
