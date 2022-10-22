@@ -1,3 +1,4 @@
+const axios = require("axios");
 const BASE_URL = "https://ceptron.tech/api/";
 
 function absoluteURL(url) {
@@ -11,38 +12,36 @@ async function generateImage(prompt) {
 	Headers: prompt
 	Return: image generated from stable diffusion
   */
-  //   return fetch(absoluteURL("generate/image"), {
-  //     method: "GET",
-  //     headers: {
-  //       prompt: prompt,
-  //     },
-  //   })
+  //   return axios
+  //     .get(absoluteURL("generate/image"), {
+  //       headers: {
+  //         prompt: prompt,
+  //       },
+  //     })
   //     .then((res) => res.json)
   //     .then((json) => {
   //       return json;
   //     });
 }
 
-async function generateSummary(url) {
-  let n_sentences = 10;
-  return url;
+async function generateSummary(url, n_sentences = 10) {
   /*
 	Route: GET /generate/summary
 	Headers: prompt
 	Return: summary text generated from url with sumy
   */
-  //   return fetch(absoluteURL("summarize"), {
-  //     method: "GET",
-  //     headers: {
-  //       url: url,
-  //       sentence_count: n_sentences,
-  //     },
-  //   })
-  //     .then((res) => res.json)
-  //     .then((json) => {
-  //       return json;
-  //     });
+  return axios
+    .get(absoluteURL("summarize"), {
+      headers: {
+        url: url,
+        sentence_count: n_sentences,
+      },
+    })
+    .then((res) => {
+      return res;
+    });
 }
+
 module.exports = {
   generateImage,
   generateSummary,
