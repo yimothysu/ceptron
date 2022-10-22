@@ -23,7 +23,6 @@ function createCopyConfirmation(success) {
   copyWindow.loadFile("copy.html");
 
   if (!success) {
-    console.log("Not success");
     copyWindow.webContents.executeJavaScript(
       `document.querySelector('#copiedToClipboard').textContent = "Error: Command Not Found"`,
       true
@@ -64,7 +63,9 @@ function createWindow() {
           processCommands(result).then((output) => {
             console.log(output);
             if (output == "Error Finding Command") {
-              createCopyConfirmation(false);
+              if (result != "") {
+                createCopyConfirmation(false);
+              }
             } else {
               if (typeof output == "string") {
                 clipboard.writeText(output);
