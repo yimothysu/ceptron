@@ -52,6 +52,14 @@ function createHelpPage() {
     frame: false,
   });
   helpWindow.loadFile("help.html");
+
+  helpWindow.webContents.on("before-input-event", (event, input) => {
+    if (input.type == "keyDown") {
+      if (input.key === "Escape") {
+        helpWindow.close();
+      }
+    }
+  });
 }
 
 function createCopyConfirmation(err = "") {
