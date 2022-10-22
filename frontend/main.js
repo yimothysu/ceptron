@@ -20,16 +20,17 @@ function executeCommand(mainWindow) {
       historyIndex++;
       processCommands(command).then((output) => {
         cache.set(command, output);
-        // historyIndex++;
-        console.log(output);
-        if (output == "Error Finding Command") {
+        if (
+          output == "Error: Invalid Command" ||
+          output == "Error: Invalid Arguments"
+        ) {
           if (command != "") {
-            createCopyConfirmation(false);
+            createCopyConfirmation(output);
           }
         } else {
           if (typeof output == "string") {
             clipboard.writeText(output);
-            createCopyConfirmation(true);
+            createCopyConfirmation();
           } else clipboard.writeImage(output);
         }
       });
@@ -58,7 +59,7 @@ function navigateHistory(mainWindow, iter) {
   }
 }
 
-function createCopyConfirmation(success) {
+function createCopyConfirmation(err = "") {
   const screenDimensions = electron.screen.getPrimaryDisplay().size;
   const windowWidth = Math.round(screenDimensions.width * 0.6);
   const windowHeight = Math.round(screenDimensions.height * 0.11);
@@ -74,9 +75,9 @@ function createCopyConfirmation(success) {
   });
   copyWindow.loadFile("copy.html");
 
-  if (!success) {
+  if (err) {
     copyWindow.webContents.executeJavaScript(
-      `document.querySelector('#copiedToClipboard').textContent = "Error: Command Not Found"`,
+      `document.querySelector('#copiedToClipboard').textContent = "${err}"`,
       true
     );
   }

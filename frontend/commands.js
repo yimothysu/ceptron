@@ -6,18 +6,32 @@ function splitFirstSpace(str) {
   return [str.substring(0, index), str.substring(index + 1)];
 }
 
+function imageCommand(cmd, args) {
+  return generateImage(args);
+}
+
+function summaryCommand(cmd, args) {
+  let output = "Error: Invalid Arguments";
+  let argRay = args.split(" ");
+  if (argRay.length == 1) {
+    output = generateSummary(args[0]);
+  } else if (isNaN(argRay[1]) && !isNaN(argRay[0])) {
+    output = generateSummary(argRay[1], argRay[0]);
+  }
+  return output;
+}
+
 async function processCommands(command) {
   if (cache.has(command)) {
     return cache.get(command);
   }
   let [cmd, args] = splitFirstSpace(command);
-  let output = "Error Finding Command";
   if (["image", "img", "i"].includes(cmd)) {
-    output = generateImage(args);
+    return imageCommand(cmd, args);
   } else if (["s", "sum", "summ", "summary"].includes(cmd)) {
-    output = generateSummary(args);
+    return summaryCommand(cmd, args);
   }
-  return output;
+  return "Error: Invalid Command";
 }
 
 module.exports = {
