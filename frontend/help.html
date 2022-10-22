@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <!-- https://developer.mozilla.org/en-US/docs/Web/HTTP/CSP -->
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'">
+    <link href="./styles.css" rel="stylesheet">
+  </head>
+  <body>
+    <div id = "background">
+      <div id = "title"><b>COMMANDS</b></div>
+      <div id = "commands">img { keywords of image }</div>
+      <div id = "description">Generates an image based on a description</div>
+      <div id = "description">ex: img bird flying in the sky</div>
+      <div id = "commands">sum { url }   or   sum { 10 } { url }</div>
+      <div id = "description">Generates an automatic summary of the url in 10 sentences by default</div>
+      <div id = "description">ex: sum https://en.wikipedia.org/wiki/Perceptron</div>
+      <div id = "commands">sum { 3 } { url }</div>
+      <div id = "description">Generates an automatic summary of the url in 3 sentences</div>
+      <div id = "description">ex: sum 3 https://en.wikipedia.org/wiki/Perceptron</div>
+    </div>
+    <!-- You can also require other files to run in this process -->
+    <script src="./renderer.js"></script>
+  </body>
+</html>

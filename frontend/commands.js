@@ -30,6 +30,8 @@ async function processCommands(command) {
     return imageCommand(cmd, args);
   } else if (["s", "sum", "summ", "summary"].includes(cmd)) {
     return summaryCommand(cmd, args);
+  } else if (["help", "h"].includes(command) || ["help", "h"].includes(cmd)) {
+    return "help";
   }
   return "Error: Invalid Command";
 }
