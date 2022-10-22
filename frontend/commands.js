@@ -10,6 +10,8 @@ async function processCommands(command) {
 
   if (["image", "img", "i"].includes(cmd)) {
     generateImage(args);
+  } else if (["s", "sum", "summ", "summary"].includes(cmd)) {
+    generateSummary(args);
   }
 }
 
