@@ -18,6 +18,7 @@ function createWindow() {
       preload: path.join(__dirname, "preload.js"),
     },
     frame: false,
+    transparent: true,
   });
   // and load the index.html of the app.
   mainWindow.loadFile("index.html");
@@ -32,13 +33,13 @@ function createWindow() {
 app.whenReady().then(() => {
   console.log("Ready");
   const ret = globalShortcut.register("CommandOrControl+Shift+C", () => {
-    createWindow();
+    if (!BrowserWindow.getAllWindows()[0]) createWindow();
   });
   const esc = globalShortcut.register("Escape", () => {
     BrowserWindow.getAllWindows()[0].close();
   });
   const ent = globalShortcut.register("Enter", () => {
-    
+    BrowserWindow.getAllWindows()[0].close();
   });
 
   app.on("activate", function () {

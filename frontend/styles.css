@@ -5,8 +5,10 @@
 #cmdField {
   width: 98.6%;
   height: 100%;
-  font-size: 3.62em;
+  font-size: 3.4em;
+  color: white;
   outline: none !important;
-  border:solid rgb(121, 237, 255);
   border-color: transparent;
+  background-color: rgba(128, 128, 128, 0.6);
+  border-radius: 10px;
 }
