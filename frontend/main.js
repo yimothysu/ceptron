@@ -36,6 +36,10 @@ function createWindow() {
           processCommands(result);
           //       copiedWindow.show();
         });
+      mainWindow.webContents.executeJavaScript(
+        `document.querySelector('#cmdField').value = ""`,
+        true
+      );
     }
   });
 
