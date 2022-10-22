@@ -29,8 +29,14 @@ function createWindow() {
 // initialization and is ready to create browser windows.
 
 app.whenReady().then(() => {
+  console.log("Ready");
   const ret = globalShortcut.register("CommandOrControl+Shift+C", () => {
     createWindow();
+  });
+  const esc = globalShortcut.register("Escape", () => {
+    BrowserWindow.getAllWindows().forEach(function (win) {
+      win.close();
+    });
   });
 
   app.on("activate", function () {
