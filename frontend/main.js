@@ -8,6 +8,23 @@ const { history } = require("./history.js");
 
 const electron = require("electron");
 
+function createHelpPage() {
+  const screenDimensions = electron.screen.getPrimaryDisplay().size;
+  const windowWidth = Math.round(screenDimensions.width * 0.6);
+  const windowHeight = Math.round(screenDimensions.height * 0.5);
+
+  const helpWindow = new BrowserWindow({
+    width: windowWidth,
+    height: windowHeight,
+    webPreferences: {
+      preload: path.join(__dirname, "preload.js"),
+    },
+    transparent: true,
+    frame: false,
+  });
+  helpWindow.loadFile("help.html");
+}
+
 let historyIndex = 0;
 
 function executeCommand(mainWindow) {
@@ -27,6 +44,8 @@ function executeCommand(mainWindow) {
           if (command != "") {
             createCopyConfirmation(output);
           }
+        } else if (output == "help") {
+                createHelpPage();
         } else {
           if (typeof output == "string") {
             clipboard.writeText(output);
@@ -80,11 +99,15 @@ function createCopyConfirmation(err = "") {
       `document.querySelector('#copiedToClipboard').textContent = "${err}"`,
       true
     );
+    copyWindow.webContents.executeJavaScript(
+      `document.querySelector('#copiedToClipboard').style.color = "red"`,
+      true
+    );
   }
 
   setTimeout(() => {
     copyWindow.close();
-  }, 750);
+  }, 1000);
 }
 
 function createWindow() {
@@ -103,8 +126,6 @@ function createWindow() {
   });
   // and load the index.html of the app.
   mainWindow.loadFile("index.html");
-  // copiedWindow.loadFile("copy.html");
-  // copiedWindow.hide();
   mainWindow.webContents.on("before-input-event", (event, input) => {
     if (input.type == "keyUp") {
       if (input.key === "Escape") {
