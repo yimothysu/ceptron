@@ -66,7 +66,6 @@ sumy==0.10.0
 tensorboard==2.10.1
 tensorboard-data-server==0.6.1
 tensorboard-plugin-wit==1.8.1
-tensorflow==2.10.0
 tensorflow-cpu==2.10.0
 tensorflow-estimator==2.10.0
 tensorflow-hub==0.12.0
@@ -75,7 +74,6 @@ tensorflow-text==2.10.0
 termcolor==2.0.1
 tf2onnx==1.8.4
 tokenizers==0.13.1
-torch==1.12.1
 tqdm==4.64.1
 transformers==4.23.1
 typing_extensions==4.4.0
