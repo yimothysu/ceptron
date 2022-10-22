@@ -6,6 +6,34 @@ const { x } = require("process");
 
 const electron = require("electron");
 
+function createCopyConfirmation(success) {
+  const screenDimensions = electron.screen.getPrimaryDisplay().size;
+  const windowWidth = Math.round(screenDimensions.width * 0.6);
+  const windowHeight = Math.round(screenDimensions.height * 0.11);
+
+  const copyWindow = new BrowserWindow({
+    width: windowWidth,
+    height: windowHeight,
+    webPreferences: {
+      preload: path.join(__dirname, "preload.js"),
+    },
+    frame: false,
+    transparent: true,
+  });
+  copyWindow.loadFile("copy.html");
+
+  if (!success) {
+    copyWindow.webContents.executeJavaScript(
+      `document.querySelector('#copiedToClipboard').textContent = "Error: Command Not Found"`,
+      true
+    );
+  }
+
+  setTimeout(() => {
+    copyWindow.close();
+  }, 750);
+}
+
 function createWindow() {
   // Create the browser window.
   const screenDimensions = electron.screen.getPrimaryDisplay().size;
@@ -34,8 +62,16 @@ function createWindow() {
         .then(function (result) {
           processCommands(result).then((output) => {
             console.log(output);
-            if (typeof output == "string") clipboard.writeText(output);
-            else clipboard.writeImage(output);
+            if (output == "Error Finding Command") {
+              if (result != "") {
+                createCopyConfirmation(false);
+              }
+            } else {
+              if (typeof output == "string") {
+                clipboard.writeText(output);
+                createCopyConfirmation(true);
+              } else clipboard.writeImage(output);
+            }
           });
           //       copiedWindow.show();
         });
