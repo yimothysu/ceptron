@@ -99,14 +99,15 @@ def stableDiffusion(prompt: str,
                     height: int,
                     width: int,
                     latentChannels: int = 4,
-                    outPath: str = '/output',
+                    outPath: str = '/output/',
                     ddim_steps: int = 50,
                     downsamplingFactor: int = 8,
                     seed: int = 42,
                     fixed_code: bool = True,
                     scale: float = 7.5,
                     precision: str = "autocast",
-                    n_iter: int = 2):
+                    n_iter: int = 2, 
+                    ddim_eta: float = 0.0):
     seed_everything(seed)
 
     config = OmegaConf.load(f"configs/stable-diffusion/v1-inference.yaml")
@@ -117,6 +118,7 @@ def stableDiffusion(prompt: str,
 
     sampler = PLMSSampler(model)
 
+    sample_path = os.path.join(outpath, "samples")
     os.makedirs(outPath, exist_ok=True)
     outpath = outPath
 
@@ -160,7 +162,7 @@ def stableDiffusion(prompt: str,
                                                          verbose=False,
                                                          unconditional_guidance_scale=scale,
                                                          unconditional_conditioning=uc,
-                                                         eta=opt.ddim_eta,
+                                                         eta=ddim_eta,
                                                          x_T=start_code)
 
                         x_samples_ddim = model.decode_first_stage(samples_ddim)
@@ -170,6 +172,15 @@ def stableDiffusion(prompt: str,
                         x_checked_image, has_nsfw_concept = check_safety(x_samples_ddim)
 
                         x_checked_image_torch = torch.from_numpy(x_checked_image).permute(0, 3, 1, 2)
+
+                        for x_sample in x_checked_image_torch:
+                            x_sample = 255. * rearrange(x_sample.cpu().numpy(), 'c h w -> h w c')
+                            img = Image.fromarray(x_sample.astype(np.uint8))
+                            img = put_watermark(img, wm_encoder)
+                            img.save(os.path.join(sample_path, f"{base_count:05}.png"))
+                            base_count += 1
+
+                        all_samples.append(x_checked_image_torch)
 
                 # additionally, save as grid
                 grid = torch.stack(all_samples, 0)
@@ -186,7 +197,7 @@ def stableDiffusion(prompt: str,
                 toc = time.time()
 
 def main():
-    stableDiffusion("Rhinos", 256, 256)
+    stableDiffusion("Rhinos", 256, 256, outPath="/home/hydra/hackGT9/output/")
 
 if __name__ == "__main__":
     main()
