@@ -69,7 +69,7 @@ function createHistory() {
 function createHelpPage() {
   const screenDimensions = electron.screen.getPrimaryDisplay().size;
   const windowWidth = Math.round(screenDimensions.width * 0.6);
-  const windowHeight = Math.round(screenDimensions.height * 0.61);
+  const windowHeight = Math.round(screenDimensions.height * 0.71);
 
   const helpWindow = new BrowserWindow({
     width: windowWidth,
