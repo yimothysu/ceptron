@@ -50,7 +50,8 @@ app.whenReady().then(() => {
     if (!window) {
       createWindow();
     } else {
-      window.show();
+      BrowserWindow.getAllWindows()[0].close();
+      createWindow();
     }
   });
 
