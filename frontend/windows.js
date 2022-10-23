@@ -3,7 +3,6 @@ const { BrowserWindow, clipboard } = require("electron");
 const path = require("path");
 const { history } = require("./history.js");
 
-
 function createSpinner() {
   const screenDimensions = electron.screen.getPrimaryDisplay().size;
   const windowWidth = Math.round(screenDimensions.width);
@@ -128,6 +127,9 @@ function createCopyConfirmation(err = "") {
     transparent: true,
   });
   copyWindow.loadFile("copy.html");
+  setTimeout(() => {
+    copyWindow.focus();
+  }, 200);
 
   if (err) {
     copyWindow.webContents.executeJavaScript(
