@@ -10,7 +10,7 @@ const { cache } = require("./cache.js");
 const { history } = require("./history.js");
 
 let historyIndex = 0;
-let commands = ["image", "summarize", "complete", "help", "history"];
+let commands = ["image", "summarize", "complete", "history", "help"];
 let first = true;
 
 function splitFirstSpace(str) {
@@ -64,15 +64,16 @@ function autoComplete(mainWindow) {
     .executeJavaScript(`document.querySelector('#cmdField').value`, true)
     .then((query) => {
       //console.log("querying: " + query);
+      let autocomp = query;
       if (query === "img") {
-        query = "image ";
+        autocomp = "image ";
       } else {
         commands.forEach((cmd) => {
-          if (cmd.startsWith(query)) query = cmd + " ";
+          if (cmd.startsWith(query)) autocomp = cmd + " ";
         });
       }
       mainWindow.webContents.executeJavaScript(
-        `document.querySelector('#cmdField').value = "${query}"`
+        `document.querySelector('#cmdField').value = "${autocomp}"`
       );
       mainWindow.webContents
         .executeJavaScript(
