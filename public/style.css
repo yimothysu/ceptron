@@ -14,3 +14,19 @@ p {
     text-align: center;
     margin-top: 5rem;
 }
+
+.left-panel {
+    text-align: left;
+    margin-top: 5rem;
+    padding-left: 1rem;
+}
+
+.right-panel {
+    margin-top: 5rem;
+    text-align: right;
+    padding-right: 1rem;
+}
+
+img {
+    max-width: 80%;
+}
