@@ -1,4 +1,4 @@
-const { clipboard } = require("electron");
+const { clipboard, nativeImage } = require("electron");
 const {
   createHistory,
   createHelpPage,
@@ -8,11 +8,14 @@ const { processCommands } = require("./commands.js");
 const { cache } = require("./cache.js");
 const { history } = require("./history.js");
 
-const electron = require("electron");
-
 let historyIndex = 0;
 
 let first = true;
+
+function splitFirstSpace(str) {
+  const index = str.indexOf(" ");
+  return [str.substring(0, index), str.substring(index + 1)];
+}
 
 function executeCommand(mainWindow) {
   // Input Command
@@ -24,19 +27,28 @@ function executeCommand(mainWindow) {
       historyIndex++;
       processCommands(command).then((output) => {
         cache.set(command, output);
-        if (output.startsWith("Error: ")) {
-          if (command != "") {
-            createCopyConfirmation(output);
-          }
-        } else if (output == "help") {
-          createHelpPage();
-        } else if (output == "history") {
-          createHistory();
+        let [cmd, args] = splitFirstSpace(command);
+        if (["i", "img", "image"].includes(cmd)) {
+          console.log("IMAGE");
+          console.log(output.length);
+          const buffer = Buffer.from(output);
+          const image = nativeImage.createFromBuffer(buffer);
+          clipboard.writeImage(image);
+          createCopyConfirmation();
         } else {
-          if (typeof output == "string") {
+          if (output.startsWith("Error: ")) {
+            if (command != "") {
+              createCopyConfirmation(output);
+            }
+          } else if (output == "help") {
+            createHelpPage();
+          } else if (output == "history") {
+            createHistory();
+          } else {
+            // Fires after Summary API Call
             clipboard.writeText(output);
             createCopyConfirmation();
-          } else clipboard.writeImage(output);
+          }
         }
       });
     });
