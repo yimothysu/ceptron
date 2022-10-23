@@ -26,6 +26,19 @@ function createWindow() {
     transparent: true,
   });
 
+  mainWindow.webContents.executeJavaScript(
+    `document.querySelector('#cmdFieldDisabled').value = "Enter command here"`,
+    true
+  );
+  mainWindow.webContents.executeJavaScript(
+    `document.querySelector('#cmdFieldDisabled').disabled = false`,
+    true
+  );
+  mainWindow.webContents.executeJavaScript(
+    `document.querySelector('#cmdFieldDisabled').style.visibility = 'visible'`,
+    true
+  );
+
   mainWindow.loadFile("index.html");
 
   mainWindow.webContents.on("before-input-event", (event, input) => {
