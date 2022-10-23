@@ -7,9 +7,9 @@ const axiosInstance = axios.create({
 
 async function generateImage(prompt) {
   /*
-	Route: GET /image
-	Headers: prompt
-	Return: image generated from stable diffusion
+  Route: GET /image
+  Headers: prompt
+  Return: image generated from stable diffusion
   */
   const res = await axios.get(
     `http://34.71.228.105:8000/api/image?prompt=${prompt}`,
@@ -17,6 +17,7 @@ async function generateImage(prompt) {
       headers: {
         "Content-Type": "application/json",
       },
+      responseType: "arraybuffer"
     }
   );
   return res.data;
@@ -31,9 +32,9 @@ function padHttp(url) {
 
 async function generateSummary(url, sentence_count = 10) {
   /*
-	Route: GET /generate/summary
-	Headers: prompt
-	Return: summary text generated from url with sumy
+  Route: GET /generate/summary
+  Headers: prompt
+  Return: summary text generated from url with sumy
   */
   const res = await axiosInstance.get(
     `summarize?url=${padHttp(url)}&sentence_count=${sentence_count}`,

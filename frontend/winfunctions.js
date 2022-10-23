@@ -27,8 +27,7 @@ function executeCommand(mainWindow) {
         cache.set(command, output);
         let [cmd, args] = splitFirstSpace(command);
         if (["i", "img", "image"].includes(cmd)) {
-          console.log("Test");
-          console.log("type", typeof output);
+          console.log("IMAGE");
           console.log(output.length);
           const buffer = Buffer.from(output);
           const image = nativeImage.createFromBuffer(buffer);
