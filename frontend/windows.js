@@ -144,7 +144,7 @@ function createCopyConfirmation(err = "") {
 
   setTimeout(() => {
     copyWindow.close();
-  }, 1000);
+  }, 600);
 }
 
 module.exports = {
