@@ -14,7 +14,7 @@
 #cmdField {
   display: flex;
   width: 80%;
-  height: 100%;
+  height: 74%;
   font-size: 3.2em;
   color: white;
   outline: none !important;
@@ -22,7 +22,13 @@
   background-color: rgba(128, 128, 128, 0.8);
   border-radius: 10px;
   padding-left: 10%;
-  margin-top: -8%;
+  /* margin-top: -8%; */
+
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+
   /* background: url("../public/logo.png") no-repeat left;
   background-size: 5%; */
 }
@@ -99,10 +105,22 @@
 }
 
 #favicon {
-  width: 5%;
-  height: 5%;
+  /* width: 5%;
+  height: 5%; */
   /* margin-right: -9%; */
-  margin-top: 1.8%;
+  /* margin-top: 1.8%;
   margin-bottom: 1%;
-  padding-left: 2%;
+  padding-left: 2%; */
+
+  /* position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%); */
+
+  width: 5%;
+  position: absolute;
+  top: 50%;
+  left: 8.5%;
+  transform: translate(-30%, -50%);
+  z-index: 1;
 }
