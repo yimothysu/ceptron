@@ -9,7 +9,7 @@ const { cache } = require("./cache.js");
 const { history } = require("./history.js");
 
 let historyIndex = 0;
-
+let commands = ["image", "summarize", "complete", "help", "history"];
 let first = true;
 
 function splitFirstSpace(str) {
@@ -29,8 +29,6 @@ function executeCommand(mainWindow) {
         cache.set(command, output);
         let [cmd, args] = splitFirstSpace(command);
         if (["i", "img", "image"].includes(cmd)) {
-          console.log("IMAGE");
-          console.log(output.length);
           const buffer = Buffer.from(output);
           const image = nativeImage.createFromBuffer(buffer);
           clipboard.writeImage(image);
@@ -59,7 +57,6 @@ function executeCommand(mainWindow) {
 }
 
 function autoComplete(mainWindow) {
-  let commands = ["image", "summarize", "help", "history"];
   mainWindow.webContents
     .executeJavaScript(`document.querySelector('#cmdField').value`, true)
     .then((query) => {
@@ -89,7 +86,6 @@ function autoComplete(mainWindow) {
 }
 
 function predictive(mainWindow, input) {
-  let commands = ["image", "summarize", "help", "history"];
   mainWindow.webContents
     .executeJavaScript(`document.querySelector('#cmdField').value`, true)
     .then((query) => {
@@ -117,13 +113,9 @@ function predictive(mainWindow, input) {
             );
           }
         });
-      // mainWindow.webContents.openDevTools();
-      //console.log("query: " + query);
       prediction = "";
       commands.forEach((cmd) => {
         if (cmd.startsWith(query)) {
-          console.log("query: " + query);
-          console.log("cmd: " + cmd + "\n");
           prediction = cmd;
         }
         if (query === "" || prediction === "") {
