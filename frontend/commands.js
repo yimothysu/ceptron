@@ -7,6 +7,9 @@ function splitFirstSpace(str) {
 }
 
 function imageCommand(cmd, args) {
+  if (args.length == 0) {
+    return "Error: Invalid Arguments";
+  }
   return generateImage(args);
 }
 
