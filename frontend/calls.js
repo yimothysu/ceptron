@@ -60,7 +60,7 @@ async function generateTextCompletion(prompt, max_tokens = 200) {
     max_tokens: max_tokens,
     temperature: 0,
   });
-  return response.data.choices[0].text;
+  return prompt + response.data.choices[0].text;
 }
 
 module.exports = {
