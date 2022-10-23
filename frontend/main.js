@@ -4,6 +4,7 @@ const path = require("path");
 const {
   executeCommand,
   autoComplete,
+  predictive,
   navigateHistory,
 } = require("./winfunctions.js");
 const { x, off } = require("process");
@@ -38,6 +39,9 @@ function createWindow() {
         navigateHistory(mainWindow, iter);
       } else if (input.key === "Tab") {
         autoComplete(mainWindow);
+      } else {
+        predictive(mainWindow, input);
+        //autoComplete(mainWindow);
       }
     }
   });

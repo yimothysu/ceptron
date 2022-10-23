@@ -12,6 +12,8 @@ const electron = require("electron");
 
 let historyIndex = 0;
 
+let first = true;
+
 function executeCommand(mainWindow) {
   // Input Command
   mainWindow.hide();
@@ -49,6 +51,7 @@ function autoComplete(mainWindow) {
   mainWindow.webContents
     .executeJavaScript(`document.querySelector('#cmdField').value`, true)
     .then((query) => {
+      //console.log("querying: " + query);
       if (query === "img") {
         query = "image ";
       } else {
@@ -73,6 +76,49 @@ function autoComplete(mainWindow) {
     });
 }
 
+function predictive(mainWindow, input) {
+  let commands = ["image", "summarize", "help", "history"];
+  mainWindow.webContents
+    .executeJavaScript(`document.querySelector('#cmdField').value`, true)
+    .then((query) => {
+      if (first === true) {
+        first = false;
+        query = input.key;
+      } else if (input.key === "Backspace") {
+        query = query.slice(0, query.length - 1);
+      } else if (input.key.length > 1) {
+        query = query;
+      } else {
+        query = query + input.key;
+      }
+      mainWindow.webContents.executeJavaScript(`document.querySelector('#cmdField').value`, true)
+      .then((value) => {
+        if(value === ""){
+          mainWindow.webContents.executeJavaScript(`document.querySelector('#cmdFieldDisabled').disabled = true`, true);
+          mainWindow.webContents.executeJavaScript(`document.querySelector('#cmdFieldDisabled').style.visibility = 'hidden'`, true);  
+        }
+      })
+      // mainWindow.webContents.openDevTools();
+    //console.log("query: " + query);
+    prediction = "";
+    commands.forEach((cmd) => {
+     if (cmd.startsWith(query)) {
+      console.log("query: " + query);
+      console.log("cmd: " + cmd + "\n");
+      prediction = cmd;
+     }
+     if(query === "" || prediction === ""){
+        mainWindow.webContents.executeJavaScript(`document.querySelector('#cmdFieldDisabled').disabled = true`, true);
+        mainWindow.webContents.executeJavaScript(`document.querySelector('#cmdFieldDisabled').style.visibility = 'hidden'`, true);
+     }else{
+      mainWindow.webContents.executeJavaScript(`document.querySelector('#cmdFieldDisabled').value = "${prediction}"`, true);
+      mainWindow.webContents.executeJavaScript(`document.querySelector('#cmdFieldDisabled').disabled = false`, true);
+      mainWindow.webContents.executeJavaScript(`document.querySelector('#cmdFieldDisabled').style.visibility = 'visible'`, true);
+     }
+    });
+  });
+}
+
 function navigateHistory(mainWindow, iter) {
   if (historyIndex + iter <= history.length) {
     historyIndex = historyIndex + iter;
@@ -95,4 +141,5 @@ module.exports = {
   executeCommand,
   autoComplete,
   navigateHistory,
+  predictive
 };
