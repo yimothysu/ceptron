@@ -28,7 +28,7 @@ async function processCommands(command) {
   let [cmd, args] = splitFirstSpace(command);
   if (["image", "img", "i"].includes(cmd)) {
     return imageCommand(cmd, args);
-  } else if (["s", "sum", "summ", "summary"].includes(cmd)) {
+  } else if (["s", "sum", "summ", "summary", "summarize"].includes(cmd)) {
     return summaryCommand(cmd, args);
   } else if (["help", "h"].includes(command) || ["help", "h"].includes(cmd)) {
     return "help";
