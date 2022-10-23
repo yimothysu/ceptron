@@ -8,16 +8,16 @@ const axiosInstance = axios.create({
 async function generateImage(prompt) {
   return prompt;
   /*
-	Route: GET /generate/image
+	Route: GET /image
 	Headers: prompt
 	Return: image generated from stable diffusion
   */
-  //   return axios
-  //     .get(absoluteURL(`generate/image?prompt=${prompt}`))
-  //     .then((res) => res.json)
-  //     .then((json) => {
-  //       return json;
-  //     });
+  //   const res = await axiosInstance.get(`image?prompt=${prompt}`, {
+  //     headers: {
+  //       "Content-Type": "application/json",
+  //     },
+  //   });
+  //   return res.data;
 }
 
 function padHttp(url) {

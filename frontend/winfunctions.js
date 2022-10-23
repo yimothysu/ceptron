@@ -22,10 +22,7 @@ function executeCommand(mainWindow) {
       historyIndex++;
       processCommands(command).then((output) => {
         cache.set(command, output);
-        if (
-          output == "Error: Invalid Command" ||
-          output == "Error: Invalid Arguments"
-        ) {
+        if (output.startsWith("Error: ")) {
           if (command != "") {
             createCopyConfirmation(output);
           }
@@ -45,6 +42,35 @@ function executeCommand(mainWindow) {
     `document.querySelector('#cmdField').value = ""`,
     true
   );
+}
+
+function autoComplete(mainWindow) {
+  let commands = ["image", "summarize", "help", "history"];
+  mainWindow.webContents
+    .executeJavaScript(`document.querySelector('#cmdField').value`, true)
+    .then((query) => {
+      if (query === "img") {
+        query = "image ";
+      } else {
+        commands.forEach((cmd) => {
+          if (cmd.startsWith(query)) query = cmd + " ";
+        });
+      }
+      mainWindow.webContents.executeJavaScript(
+        `document.querySelector('#cmdField').value = "${query}"`
+      );
+      mainWindow.webContents
+        .executeJavaScript(
+          `document.querySelector('#cmdField').value.length`,
+          true
+        )
+        .then((length) => {
+          mainWindow.webContents.executeJavaScript(
+            `document.querySelector('#cmdField').setSelectionRange(${length}, ${length})`,
+            true
+          );
+        });
+    });
 }
 
 function navigateHistory(mainWindow, iter) {
@@ -67,5 +93,6 @@ function navigateHistory(mainWindow, iter) {
 
 module.exports = {
   executeCommand,
+  autoComplete,
   navigateHistory,
 };

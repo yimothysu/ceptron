@@ -120,7 +120,7 @@ function createCopyConfirmation(err = "") {
 
   setTimeout(() => {
     copyWindow.close();
-  }, 500);
+  }, 1000);
 }
 
 module.exports = {

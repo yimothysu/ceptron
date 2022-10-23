@@ -1,7 +1,11 @@
 // Modules to control application life and create native browser window
 const { app, BrowserWindow, globalShortcut } = require("electron");
 const path = require("path");
-const { executeCommand, navigateHistory } = require("./winfunctions.js");
+const {
+  executeCommand,
+  autoComplete,
+  navigateHistory,
+} = require("./winfunctions.js");
 const { x, off } = require("process");
 
 const electron = require("electron");
@@ -32,6 +36,8 @@ function createWindow() {
       } else if (input.key === "ArrowUp" || input.key === "ArrowDown") {
         let iter = input.key == "ArrowUp" ? -1 : 1;
         navigateHistory(mainWindow, iter);
+      } else if (input.key === "Tab") {
+        autoComplete(mainWindow);
       }
     }
   });
@@ -50,7 +56,8 @@ app.whenReady().then(() => {
     if (!window) {
       createWindow();
     } else {
-      window.show();
+      BrowserWindow.getAllWindows()[0].close();
+      createWindow();
     }
   });
 
