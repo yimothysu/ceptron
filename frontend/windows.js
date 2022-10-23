@@ -18,6 +18,11 @@ function createSpinner() {
     transparent: true,
   });
   spinnerWindow.loadFile("spinner.html");
+  return spinnerWindow;
+}
+
+function destroySpinner(window) {
+  window.close();
 }
 
 function createHistory() {
@@ -145,4 +150,5 @@ module.exports = {
   createHelpPage,
   createCopyConfirmation,
   createSpinner,
+  destroySpinner,
 };

@@ -17,7 +17,7 @@ function splitFirstSpace(str) {
   return [str.substring(0, index), str.substring(index + 1)];
 }
 
-function executeCommand(mainWindow) {
+function executeCommand(mainWindow, cb) {
   // Input Command
   mainWindow.hide();
   mainWindow.webContents
@@ -29,14 +29,13 @@ function executeCommand(mainWindow) {
         cache.set(command, output);
         let [cmd, args] = splitFirstSpace(command);
         if (["i", "img", "image"].includes(cmd)) {
-          createSpinner();
           console.log("IMAGE");
           console.log(output.length);
           const buffer = Buffer.from(output);
           const image = nativeImage.createFromBuffer(buffer);
           clipboard.writeImage(image);
           createCopyConfirmation();
-          
+          // cb();
         } else {
           if (output.startsWith("Error: ")) {
             if (command != "") {
@@ -44,7 +43,6 @@ function executeCommand(mainWindow) {
             }
           } else if (output == "help") {
             createHelpPage();
-            createSpinner();
           } else if (output == "history") {
             createHistory();
           } else {
@@ -53,6 +51,7 @@ function executeCommand(mainWindow) {
             createCopyConfirmation();
           }
         }
+        cb();
       });
     });
   mainWindow.webContents.executeJavaScript(

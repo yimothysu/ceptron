@@ -10,6 +10,8 @@ const {
 const { x, off } = require("process");
 
 const electron = require("electron");
+const { create } = require("domain");
+const { createSpinner, destroySpinner } = require("./windows.js");
 
 function createWindow() {
   const screenDimensions = electron.screen.getPrimaryDisplay().size;
@@ -33,7 +35,10 @@ function createWindow() {
       if (input.key === "Escape") {
         mainWindow.hide();
       } else if (input.key === "Enter") {
-        executeCommand(mainWindow);
+        const spinner = createSpinner();
+        executeCommand(mainWindow, function() {
+          destroySpinner(spinner);
+        });
       } else if (input.key === "ArrowUp" || input.key === "ArrowDown") {
         let iter = input.key == "ArrowUp" ? -1 : 1;
         navigateHistory(mainWindow, iter);
