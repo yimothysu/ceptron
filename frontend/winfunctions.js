@@ -22,10 +22,7 @@ function executeCommand(mainWindow) {
       historyIndex++;
       processCommands(command).then((output) => {
         cache.set(command, output);
-        if (
-          output == "Error: Invalid Command" ||
-          output == "Error: Invalid Arguments"
-        ) {
+        if (output.startsWith("Error: ")) {
           if (command != "") {
             createCopyConfirmation(output);
           }
