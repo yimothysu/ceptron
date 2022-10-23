@@ -21,7 +21,7 @@
   border-color: transparent;
   background-color: rgba(128, 128, 128, 0.8);
   border-radius: 10px;
-  
+
   padding-left: 10%;
   position: absolute;
   top: 50%;
@@ -39,7 +39,7 @@
   border-color: transparent;
   background-color: transparent;
   border-radius: 10px;
-  
+
   padding-left: 10%;
   position: absolute;
   top: 50%;
@@ -63,6 +63,7 @@
   font-size: 3em;
   font-weight: bold;
   font-style: italic;
+  text-shadow: 2px 2px #ff8e24;
 }
 
 #title {
@@ -155,12 +156,12 @@
   position: relative;
   width: 80px;
   height: 80px;
-  margin:auto;
-  left:0;
-  right:0;
-  top:0;
-  bottom:0;
-  position:fixed;
+  margin: auto;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  position: fixed;
 }
 .lds-ring div {
   box-sizing: border-box;
