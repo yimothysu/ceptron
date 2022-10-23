@@ -3,6 +3,23 @@ const { BrowserWindow, clipboard } = require("electron");
 const path = require("path");
 const { history } = require("./history.js");
 
+
+function createSpinner() {
+  const screenDimensions = electron.screen.getPrimaryDisplay().size;
+  const windowWidth = Math.round(screenDimensions.width);
+  const windowHeight = Math.round(screenDimensions.height);
+  const spinnerWindow = new BrowserWindow({
+    width: windowWidth,
+    height: windowHeight,
+    webPreferences: {
+      preload: path.join(__dirname, "preload.js"),
+    },
+    frame: false,
+    transparent: true,
+  });
+  spinnerWindow.loadFile("spinner.html");
+}
+
 function createHistory() {
   const screenDimensions = electron.screen.getPrimaryDisplay().size;
   const windowWidth = Math.round(screenDimensions.width * 0.6);
@@ -127,4 +144,5 @@ module.exports = {
   createHistory,
   createHelpPage,
   createCopyConfirmation,
+  createSpinner,
 };
