@@ -6,18 +6,20 @@ const axiosInstance = axios.create({
 });
 
 async function generateImage(prompt) {
-  return prompt;
   /*
 	Route: GET /image
 	Headers: prompt
 	Return: image generated from stable diffusion
   */
-  //   const res = await axiosInstance.get(`image?prompt=${prompt}`, {
-  //     headers: {
-  //       "Content-Type": "application/json",
-  //     },
-  //   });
-  //   return res.data;
+  const res = await axios.get(
+    `http://34.71.228.105:8000/api/image?prompt=${prompt}`,
+    {
+      headers: {
+        "Content-Type": "application/json",
+      },
+    }
+  );
+  return res.data;
 }
 
 function padHttp(url) {
