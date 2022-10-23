@@ -124,7 +124,7 @@ def main():
     parser.add_argument(
         "--ddim_steps",
         type=int,
-        default=50,
+        default=100,
         help="number of ddim sampling steps",
     )
     parser.add_argument(
@@ -175,7 +175,7 @@ def main():
     parser.add_argument(
         "--f",
         type=int,
-        default=16,
+        default=8,
         help="downsampling factor",
     )
     parser.add_argument(

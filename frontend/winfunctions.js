@@ -106,32 +106,54 @@ function predictive(mainWindow, input) {
       } else {
         query = query + input.key;
       }
-      mainWindow.webContents.executeJavaScript(`document.querySelector('#cmdField').value`, true)
-      .then((value) => {
-        if(value === ""){
-          mainWindow.webContents.executeJavaScript(`document.querySelector('#cmdFieldDisabled').disabled = true`, true);
-          mainWindow.webContents.executeJavaScript(`document.querySelector('#cmdFieldDisabled').style.visibility = 'hidden'`, true);  
-        }
-      })
+      mainWindow.webContents
+        .executeJavaScript(`document.querySelector('#cmdField').value`, true)
+        .then((value) => {
+          if (value === "") {
+            mainWindow.webContents.executeJavaScript(
+              `document.querySelector('#cmdFieldDisabled').disabled = true`,
+              true
+            );
+            mainWindow.webContents.executeJavaScript(
+              `document.querySelector('#cmdFieldDisabled').style.visibility = 'hidden'`,
+              true
+            );
+          }
+        });
       // mainWindow.webContents.openDevTools();
-    //console.log("query: " + query);
-    prediction = "";
-    commands.forEach((cmd) => {
-     if (cmd.startsWith(query)) {
-      console.log("query: " + query);
-      console.log("cmd: " + cmd + "\n");
-      prediction = cmd;
-     }
-     if(query === "" || prediction === ""){
-        mainWindow.webContents.executeJavaScript(`document.querySelector('#cmdFieldDisabled').disabled = true`, true);
-        mainWindow.webContents.executeJavaScript(`document.querySelector('#cmdFieldDisabled').style.visibility = 'hidden'`, true);
-     }else{
-      mainWindow.webContents.executeJavaScript(`document.querySelector('#cmdFieldDisabled').value = "${prediction}"`, true);
-      mainWindow.webContents.executeJavaScript(`document.querySelector('#cmdFieldDisabled').disabled = false`, true);
-      mainWindow.webContents.executeJavaScript(`document.querySelector('#cmdFieldDisabled').style.visibility = 'visible'`, true);
-     }
+      //console.log("query: " + query);
+      prediction = "";
+      commands.forEach((cmd) => {
+        if (cmd.startsWith(query)) {
+          console.log("query: " + query);
+          console.log("cmd: " + cmd + "\n");
+          prediction = cmd;
+        }
+        if (query === "" || prediction === "") {
+          mainWindow.webContents.executeJavaScript(
+            `document.querySelector('#cmdFieldDisabled').disabled = true`,
+            true
+          );
+          mainWindow.webContents.executeJavaScript(
+            `document.querySelector('#cmdFieldDisabled').style.visibility = 'hidden'`,
+            true
+          );
+        } else {
+          mainWindow.webContents.executeJavaScript(
+            `document.querySelector('#cmdFieldDisabled').value = "${prediction}"`,
+            true
+          );
+          mainWindow.webContents.executeJavaScript(
+            `document.querySelector('#cmdFieldDisabled').disabled = false`,
+            true
+          );
+          mainWindow.webContents.executeJavaScript(
+            `document.querySelector('#cmdFieldDisabled').style.visibility = 'visible'`,
+            true
+          );
+        }
+      });
     });
-  });
 }
 
 function navigateHistory(mainWindow, iter) {
@@ -156,5 +178,5 @@ module.exports = {
   executeCommand,
   autoComplete,
   navigateHistory,
-  predictive
+  predictive,
 };
