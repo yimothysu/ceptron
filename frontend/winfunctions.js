@@ -149,6 +149,10 @@ function navigateHistory(mainWindow, iter) {
   if (historyIndex + iter <= history.length) {
     historyIndex = historyIndex + iter;
   }
+  mainWindow.webContents.executeJavaScript(
+    `document.querySelector('#cmdFieldDisabled').value = ""`,
+    true
+  );
   if (historyIndex < 0) historyIndex = 0;
   if (historyIndex == history.length) {
     mainWindow.webContents.executeJavaScript(
