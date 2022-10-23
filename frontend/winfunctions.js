@@ -59,6 +59,17 @@ function autoComplete(mainWindow) {
       mainWindow.webContents.executeJavaScript(
         `document.querySelector('#cmdField').value = "${query}"`
       );
+      mainWindow.webContents
+        .executeJavaScript(
+          `document.querySelector('#cmdField').value.length`,
+          true
+        )
+        .then((length) => {
+          mainWindow.webContents.executeJavaScript(
+            `document.querySelector('#cmdField').setSelectionRange(${length}, ${length})`,
+            true
+          );
+        });
     });
 }
 
