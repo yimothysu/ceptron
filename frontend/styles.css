@@ -129,26 +129,6 @@
   z-index: 1;
 }
 
-/* .loader {
-  border: 16px solid #f3f3f3;
-  border-top: 16px solid #ff8e24;
-  border-radius: 50%;
-  width: 120px;
-  height: 120px;
-  animation: spin 1.3s cubic-bezier(.17,.67,1,.27) infinite;
-
-  margin:auto;
-  left:0;
-  right:0;
-  top:0;
-  bottom:0;
-  position:fixed;
-}
-
-@keyframes spin {
-  0% { transform: rotate(0deg);}
-  100% { transform: rotate(360deg);}
-} */
 
 .lds-ring {
   display: inline-block;
@@ -168,7 +148,6 @@
   position: absolute;
   width: 128px;
   height: 128px;
-  margin: 8px;
   border: 12px solid #fff;
   border-radius: 50%;
   animation: lds-ring 1.4s cubic-bezier(0.5, 0, 0.5, 1) infinite;

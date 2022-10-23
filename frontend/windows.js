@@ -6,8 +6,8 @@ const { history } = require("./history.js");
 
 function createSpinner() {
   const screenDimensions = electron.screen.getPrimaryDisplay().size;
-  const windowWidth = Math.round(screenDimensions.width);
-  const windowHeight = Math.round(screenDimensions.height);
+  const windowWidth = Math.round(screenDimensions.width * 0.25);
+  const windowHeight = Math.round(screenDimensions.height * 0.25);
   const spinnerWindow = new BrowserWindow({
     width: windowWidth,
     height: windowHeight,
