@@ -1,4 +1,8 @@
-const { generateImage, generateSummary } = require("./calls.js");
+const {
+  generateImage,
+  generateSummary,
+  generateTextCompletion,
+} = require("./calls.js");
 const { cache } = require("./cache.js");
 
 function splitFirstSpace(str) {
@@ -25,6 +29,15 @@ function summaryCommand(cmd, args) {
   return output;
 }
 
+function predictText(cmd, args) {
+  if (!isNaN(args[0])) {
+    let [tok, prompt] = splitFirstSpace(args);
+    let max_tokens = parseInt(tok);
+    return generateTextCompletion(prompt, max_tokens);
+  }
+  return generateTextCompletion(args);
+}
+
 async function processCommands(command) {
   if (cache.has(command)) {
     return cache.get(command);
@@ -35,6 +48,8 @@ async function processCommands(command) {
     return imageCommand(cmd, args);
   } else if (["s", "sum", "summ", "summary", "summarize"].includes(cmd)) {
     return summaryCommand(cmd, args);
+  } else if (["c", "complete"].includes(cmd)) {
+    return predictText(cmd, args);
   } else if (["help", "h"].includes(command) || ["help", "h"].includes(cmd)) {
     return "help";
   } else if (

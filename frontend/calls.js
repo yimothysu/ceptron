@@ -1,4 +1,6 @@
 const axios = require("axios");
+const { Configuration, OpenAIApi } = require("openai");
+require("dotenv").config();
 const BASE_URL = "https://ceptron.tech/api/";
 
 const axiosInstance = axios.create({
@@ -17,7 +19,7 @@ async function generateImage(prompt) {
       headers: {
         "Content-Type": "application/json",
       },
-      responseType: "arraybuffer"
+      responseType: "arraybuffer",
     }
   );
   return res.data;
@@ -47,7 +49,22 @@ async function generateSummary(url, sentence_count = 10) {
   return res.data;
 }
 
+async function generateTextCompletion(prompt, max_tokens = 200) {
+  const configuration = new Configuration({
+    apiKey: process.env.OPENAI_API_KEY,
+  });
+  const openai = new OpenAIApi(configuration);
+  const response = await openai.createCompletion({
+    model: "text-davinci-002",
+    prompt: prompt,
+    max_tokens: max_tokens,
+    temperature: 0,
+  });
+  return response.data.choices[0].text;
+}
+
 module.exports = {
   generateImage,
   generateSummary,
+  generateTextCompletion,
 };
