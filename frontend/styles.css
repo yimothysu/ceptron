@@ -12,14 +12,20 @@
 }
 
 #cmdField {
-  width: 98.6%;
-  height: 100%;
-  font-size: 3.4em;
+  width: 80%;
+  height: 90%;
+  font-size: 3.2em;
   color: white;
   outline: none !important;
   border-color: transparent;
-  background-color: rgba(128, 128, 128, 0.6);
+  background-color: rgba(128, 128, 128, 0.8);
   border-radius: 10px;
+  padding-left: 10%;
+}
+
+::placeholder {
+  color: rgb(162, 162, 162);
+  opacity: 1;
 }
 
 #copiedToClipboard {
@@ -28,7 +34,7 @@
   align-items: "center";
   text-align: center;
   color: white;
-  font-size: 3.4em;
+  font-size: 3em;
   font-weight: bold;
   font-style: italic;
 }
@@ -72,7 +78,7 @@
 
 #background {
   /* background-color: rgba(61, 61, 61, 0.6); */
-  background-color: rgba(86, 86, 86, 0.75);
+  background-color: rgba(86, 86, 86, 0.85);
   height: 90vh;
   width: 90vw;
   border-color: transparent;
