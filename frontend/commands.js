@@ -14,7 +14,7 @@ function summaryCommand(cmd, args) {
   let output = "Error: Invalid Arguments";
   let argRay = args.split(" ");
   if (argRay.length == 1) {
-    output = generateSummary(args[0]);
+    output = generateSummary(args);
   } else if (isNaN(argRay[1]) && !isNaN(argRay[0])) {
     output = generateSummary(argRay[1], argRay[0]);
   }

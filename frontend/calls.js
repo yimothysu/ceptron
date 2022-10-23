@@ -1,9 +1,9 @@
 const axios = require("axios");
 const BASE_URL = "https://ceptron.tech/api/";
 
-function absoluteURL(url) {
-  return BASE_URL + url;
-}
+const axiosInstance = axios.create({
+  baseURL: BASE_URL,
+});
 
 async function generateImage(prompt) {
   return prompt;
@@ -20,17 +20,28 @@ async function generateImage(prompt) {
   //     });
 }
 
-async function generateSummary(url, n_sentences = 10) {
+function padHttp(url) {
+  if (!url.startsWith("http")) {
+    return "https://" + url;
+  }
+  return url;
+}
+
+async function generateSummary(url, sentence_count = 10) {
   /*
 	Route: GET /generate/summary
 	Headers: prompt
 	Return: summary text generated from url with sumy
   */
-  return axios
-    .get(absoluteURL(`summarize?url=${url}&sentence_count=${n_sentences}`))
-    .then((res) => {
-      return res;
-    });
+  const res = await axiosInstance.get(
+    `summarize?url=${padHttp(url)}&sentence_count=${sentence_count}`,
+    {
+      headers: {
+        "Content-Type": "application/json",
+      },
+    }
+  );
+  return res.data;
 }
 
 module.exports = {

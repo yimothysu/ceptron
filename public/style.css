@@ -2,6 +2,15 @@ body {
     font-family: 'Raleway', sans-serif;
 }
 
+h1 {
+    font-size: 50px;
+}
+
+p {
+    font-size: 20px;
+}
+
 .panel {
     text-align: center;
+    margin-top: 5rem;
 }
