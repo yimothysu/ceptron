@@ -4,6 +4,7 @@ const {
   generateTextCompletion,
 } = require("./calls.js");
 const { cache } = require("./cache.js");
+const { history } = require("./history.js");
 
 function splitFirstSpace(str) {
   const index = str.indexOf(" ");
@@ -38,8 +39,19 @@ function predictText(cmd, args) {
   return generateTextCompletion(args);
 }
 
+function pruneCache() {
+  cache.clear();
+  return "Cache Cleared!";
+}
+
+function clearHistory() {
+  history.length = 0;
+  return "History Cleared!";
+}
+
 async function processCommands(command) {
   if (cache.has(command)) {
+    console.log("Cache hit");
     return cache.get(command);
   }
   let [cmd, args] = splitFirstSpace(command);
@@ -57,6 +69,10 @@ async function processCommands(command) {
     ["history", "hist"].includes(cmd)
   ) {
     return "history";
+  } else if (cmd == "prune" || command == "prune") {
+    return pruneCache();
+  } else if (cmd == "clear" || command == "clear") {
+    return clearHistory();
   }
   return "Error: Invalid Command";
 }

@@ -10,7 +10,15 @@ const { cache } = require("./cache.js");
 const { history } = require("./history.js");
 
 let historyIndex = 0;
-let commands = ["image", "summarize", "complete", "history", "help"];
+let commands = [
+  "prune",
+  "clear",
+  "history",
+  "help",
+  "image",
+  "summarize",
+  "complete",
+];
 let first = true;
 
 function splitFirstSpace(str) {
@@ -44,6 +52,11 @@ function executeCommand(mainWindow, cb) {
             createHelpPage();
           } else if (output == "history") {
             createHistory();
+          } else if (output == "Cache Cleared!") {
+            createCopyConfirmation(output);
+          } else if (output == "History Cleared!") {
+            createCopyConfirmation(output);
+            historyIndex = 0;
           } else {
             // Fires after Summary API Call
             clipboard.writeText(output);
