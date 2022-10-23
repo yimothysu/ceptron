@@ -7,10 +7,10 @@ const { x, off } = require("process");
 const electron = require("electron");
 
 function createWindow() {
-  // Create the browser window.
   const screenDimensions = electron.screen.getPrimaryDisplay().size;
   const windowWidth = Math.round(screenDimensions.width * 0.6);
   const windowHeight = Math.round(screenDimensions.height * 0.11);
+
   const mainWindow = new BrowserWindow({
     width: windowWidth,
     height: windowHeight,
@@ -20,8 +20,9 @@ function createWindow() {
     frame: false,
     transparent: true,
   });
-  // and load the index.html of the app.
+
   mainWindow.loadFile("index.html");
+
   mainWindow.webContents.on("before-input-event", (event, input) => {
     if (input.type == "keyDown") {
       if (input.key === "Escape") {
@@ -43,27 +44,22 @@ function createWindow() {
 
 app.whenReady().then(() => {
   console.log("Ready");
+
   const ret = globalShortcut.register("CommandOrControl+Shift+C", () => {
     window = BrowserWindow.getAllWindows()[0];
     if (!window) {
       createWindow();
     } else {
-      window.show();
+      BrowserWindow.getAllWindows()[0].close();
+      createWindow();
     }
   });
 
   app.on("activate", function () {
-    // On macOS it's common to re-create a window in the app when the
-    // dock icon is clicked and there are no other windows open.
     if (BrowserWindow.getAllWindows().length === 0) createWindow();
   });
 });
-// Quit when all windows are closed, except on macOS. There, it's common
-// for applications and their menu bar to stay active until the user quits
-// explicitly with Cmd + Q.
+
 app.on("window-all-closed", function () {
   if (process.platform !== "darwin") app.quit();
 });
-
-// In this file you can include the rest of your app's specific main process
-// code. You can also put them in separate files and require them here.
