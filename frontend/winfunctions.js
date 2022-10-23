@@ -44,6 +44,24 @@ function executeCommand(mainWindow) {
   );
 }
 
+function autoComplete(mainWindow) {
+  let commands = ["image", "summarize", "help", "history"];
+  mainWindow.webContents
+    .executeJavaScript(`document.querySelector('#cmdField').value`, true)
+    .then((query) => {
+      if (query === "img") {
+        query = "image ";
+      } else {
+        commands.forEach((cmd) => {
+          if (cmd.startsWith(query)) query = cmd + " ";
+        });
+      }
+      mainWindow.webContents.executeJavaScript(
+        `document.querySelector('#cmdField').value = "${query}"`
+      );
+    });
+}
+
 function navigateHistory(mainWindow, iter) {
   if (historyIndex + iter <= history.length) {
     historyIndex = historyIndex + iter;
@@ -64,5 +82,6 @@ function navigateHistory(mainWindow, iter) {
 
 module.exports = {
   executeCommand,
+  autoComplete,
   navigateHistory,
 };

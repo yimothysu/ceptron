@@ -30,6 +30,7 @@ async function processCommands(command) {
     return cache.get(command);
   }
   let [cmd, args] = splitFirstSpace(command);
+  cmd = cmd.toLowerCase();
   if (["image", "img", "i"].includes(cmd)) {
     return imageCommand(cmd, args);
   } else if (["s", "sum", "summ", "summary", "summarize"].includes(cmd)) {
