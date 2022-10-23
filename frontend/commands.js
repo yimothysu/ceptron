@@ -13,7 +13,8 @@ function imageCommand(cmd, args) {
 function summaryCommand(cmd, args) {
   let output = "Error: Invalid Arguments";
   let argRay = args.split(" ");
-  if (argRay.length == 1) {
+  if (argRay.length <= 1) {
+    if (args.length == 0 || !isNaN(argRay[0])) return output;
     output = generateSummary(args);
   } else if (isNaN(argRay[1]) && !isNaN(argRay[0])) {
     output = generateSummary(argRay[1], argRay[0]);
@@ -32,7 +33,10 @@ async function processCommands(command) {
     return summaryCommand(cmd, args);
   } else if (["help", "h"].includes(command) || ["help", "h"].includes(cmd)) {
     return "help";
-  } else if (["history", "hist"].includes(command) || ["history", "hist"].includes(cmd)) {
+  } else if (
+    ["history", "hist"].includes(command) ||
+    ["history", "hist"].includes(cmd)
+  ) {
     return "history";
   }
   return "Error: Invalid Command";
