@@ -17,7 +17,7 @@ let commands = [
   "help",
   "image",
   "summarize",
-  "complete",
+  "instruct",
 ];
 let first = true;
 

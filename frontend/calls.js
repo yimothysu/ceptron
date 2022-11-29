@@ -55,12 +55,12 @@ async function generateTextCompletion(prompt, max_tokens = 200) {
   });
   const openai = new OpenAIApi(configuration);
   const response = await openai.createCompletion({
-    model: "text-davinci-002",
+    model: "text-davinci-003",
     prompt: prompt,
     max_tokens: max_tokens,
     temperature: 0,
   });
-  return response.data.choices[0].text;
+  return prompt + response.data.choices[0].text;
 }
 
 module.exports = {

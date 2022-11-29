@@ -60,7 +60,7 @@ async function processCommands(command) {
     return imageCommand(cmd, args);
   } else if (["s", "sum", "summ", "summary", "summarize"].includes(cmd)) {
     return summaryCommand(cmd, args);
-  } else if (["c", "complete"].includes(cmd)) {
+  } else if (["instruct"].includes(cmd)) {
     return predictText(cmd, args);
   } else if (["help", "h"].includes(command) || ["help", "h"].includes(cmd)) {
     return "help";
