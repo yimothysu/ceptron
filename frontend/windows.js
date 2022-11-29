@@ -16,7 +16,7 @@ function createSpinner() {
     frame: false,
     transparent: true,
   });
-  spinnerWindow.loadFile("spinner.html");
+  spinnerWindow.loadFile("views/spinner.html");
   return spinnerWindow;
 }
 
@@ -37,7 +37,7 @@ function createHistory() {
     frame: false,
     transparent: true,
   });
-  historyWindow.loadFile("history.html");
+  historyWindow.loadFile("views/history.html");
 
   let index = 0;
   history
@@ -69,7 +69,7 @@ function createHistory() {
           .then((output) => {
             clipboard.writeText(output);
           });
-        createCopyConfirmation();
+        createConfirmationWindow();
         historyWindow.close();
       } else if (input.key === "ArrowDown" || input.key === "ArrowUp") {
         historyWindow.webContents.executeJavaScript(
@@ -101,7 +101,7 @@ function createHelpPage() {
     transparent: true,
     frame: false,
   });
-  helpWindow.loadFile("help.html");
+  helpWindow.loadFile("views/help.html");
 
   helpWindow.webContents.on("before-input-event", (event, input) => {
     if (input.type == "keyDown") {
@@ -112,7 +112,7 @@ function createHelpPage() {
   });
 }
 
-function createCopyConfirmation(err = "") {
+function createConfirmationWindow(msg, err=false) {
   const screenDimensions = electron.screen.getPrimaryDisplay().size;
   const windowWidth = Math.round(screenDimensions.width * 0.6);
   const windowHeight = Math.round(screenDimensions.height * 0.11);
@@ -126,16 +126,17 @@ function createCopyConfirmation(err = "") {
     frame: false,
     transparent: true,
   });
-  copyWindow.loadFile("copy.html");
+  copyWindow.loadFile("views/copy.html");
   setTimeout(() => {
     copyWindow.focus();
   }, 200);
 
+  copyWindow.webContents.executeJavaScript(
+    `document.querySelector('#copiedToClipboard').textContent = "${msg}"`,
+    true
+  );
+
   if (err) {
-    copyWindow.webContents.executeJavaScript(
-      `document.querySelector('#copiedToClipboard').textContent = "${err}"`,
-      true
-    );
     copyWindow.webContents.executeJavaScript(
       `document.querySelector('#copiedToClipboard').style.color = "red"`,
       true
@@ -150,7 +151,7 @@ function createCopyConfirmation(err = "") {
 module.exports = {
   createHistory,
   createHelpPage,
-  createCopyConfirmation,
+  createConfirmationWindow,
   createSpinner,
   destroySpinner,
 };

@@ -2,22 +2,22 @@ const { clipboard, nativeImage } = require("electron");
 const {
   createHistory,
   createHelpPage,
-  createCopyConfirmation,
   createSpinner,
+  createConfirmationWindow,
 } = require("./windows.js");
 const { processCommands } = require("./commands.js");
 const { cache } = require("./cache.js");
 const { history } = require("./history.js");
 
 let historyIndex = 0;
-let commands = [
+const commands = [
   "prune",
   "clear",
   "history",
   "help",
+  "instruct",
   "image",
   "summarize",
-  "instruct",
 ];
 let first = true;
 
@@ -35,35 +35,27 @@ function executeCommand(mainWindow, cb) {
       history.push(command);
       historyIndex++;
       processCommands(command).then((output) => {
+        cb();
         cache.set(command, output);
         let [cmd, args] = splitFirstSpace(command);
-        if (["i", "img", "image"].includes(cmd)) {
-          const buffer = Buffer.from(output);
-          const image = nativeImage.createFromBuffer(buffer);
-          clipboard.writeImage(image);
-          createCopyConfirmation();
-          // cb();
+        if (cmd == "image") {
+          require("electron").shell.openExternal(output);
         } else {
           if (output.startsWith("Error: ")) {
             if (command != "") {
-              createCopyConfirmation(output);
+              createConfirmationWindow(output, err=true);
             }
-          } else if (output == "help") {
-            createHelpPage();
-          } else if (output == "history") {
-            createHistory();
           } else if (output == "Cache Cleared!") {
-            createCopyConfirmation(output);
+            createConfirmationWindow(output);
           } else if (output == "History Cleared!") {
-            createCopyConfirmation(output);
+            createConfirmationWindow(output);
             historyIndex = 0;
           } else {
             // Fires after Summary API Call
             clipboard.writeText(output);
-            createCopyConfirmation();
+            createConfirmationWindow("Copied to Clipboard!");
           }
         }
-        cb();
       });
     });
   mainWindow.webContents.executeJavaScript(

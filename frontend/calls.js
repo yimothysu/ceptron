@@ -7,22 +7,22 @@ const axiosInstance = axios.create({
   baseURL: BASE_URL,
 });
 
-async function generateImage(prompt) {
+async function generateImage(prompt, size="512x512") {
   /*
   Route: GET /image
   Headers: prompt
-  Return: image generated from stable diffusion
+  Return: image generated from DALL-E-2
   */
-  const res = await axios.get(
-    `http://34.71.228.105:8000/api/image?prompt=${prompt}`,
-    {
-      headers: {
-        "Content-Type": "application/json",
-      },
-      responseType: "arraybuffer",
-    }
-  );
-  return res.data;
+  const configuration = new Configuration({
+    apiKey: process.env.OPENAI_API_KEY,
+  });
+  const openai = new OpenAIApi(configuration);
+  const response = await openai.createImage({
+    prompt: prompt,
+    n: 1,
+    size: size,
+  });
+  return response.data.data[0].url;
 }
 
 function padHttp(url) {
@@ -49,7 +49,7 @@ async function generateSummary(url, sentence_count = 10) {
   return res.data;
 }
 
-async function generateTextCompletion(prompt, max_tokens = 200) {
+async function generateTextCompletion(prompt, max_tokens = 500) {
   const configuration = new Configuration({
     apiKey: process.env.OPENAI_API_KEY,
   });

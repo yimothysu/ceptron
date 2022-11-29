@@ -41,7 +41,7 @@ function createWindow() {
     true
   );
 
-  mainWindow.loadFile("index.html");
+  mainWindow.loadFile("views/index.html");
 
   mainWindow.webContents.on("before-input-event", (event, input) => {
     if (input.type == "keyDown") {
