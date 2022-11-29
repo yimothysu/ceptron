@@ -78,19 +78,10 @@ function autoComplete(mainWindow) {
         });
       }
       mainWindow.webContents.executeJavaScript(
-        `document.querySelector('#cmdField').value = "${autocomp}"`
+        `document.querySelector('#cmdField').value = "${autocomp};"
+        length = document.querySelector('#cmdField').value.length;
+        document.querySelector('#cmdField').setSelectionRange(length, length)`
       );
-      mainWindow.webContents
-        .executeJavaScript(
-          `document.querySelector('#cmdField').value.length`,
-          true
-        )
-        .then((length) => {
-          mainWindow.webContents.executeJavaScript(
-            `document.querySelector('#cmdField').setSelectionRange(${length}, ${length})`,
-            true
-          );
-        });
     });
 }
 
@@ -113,11 +104,8 @@ function predictive(mainWindow, input) {
         .then((value) => {
           if (value === "") {
             mainWindow.webContents.executeJavaScript(
-              `document.querySelector('#cmdFieldDisabled').disabled = true`,
-              true
-            );
-            mainWindow.webContents.executeJavaScript(
-              `document.querySelector('#cmdFieldDisabled').style.visibility = 'hidden'`,
+              `document.querySelector('#cmdFieldDisabled').disabled = true;
+              document.querySelector('#cmdFieldDisabled').style.visibility = 'hidden';`,
               true
             );
           }
@@ -129,24 +117,15 @@ function predictive(mainWindow, input) {
         }
         if (query === "" || prediction === "") {
           mainWindow.webContents.executeJavaScript(
-            `document.querySelector('#cmdFieldDisabled').disabled = true`,
-            true
-          );
-          mainWindow.webContents.executeJavaScript(
-            `document.querySelector('#cmdFieldDisabled').style.visibility = 'hidden'`,
+            `document.querySelector('#cmdFieldDisabled').disabled = true;
+            document.querySelector('#cmdFieldDisabled').style.visibility = 'hidden';`,
             true
           );
         } else {
           mainWindow.webContents.executeJavaScript(
-            `document.querySelector('#cmdFieldDisabled').value = "${prediction}"`,
-            true
-          );
-          mainWindow.webContents.executeJavaScript(
-            `document.querySelector('#cmdFieldDisabled').disabled = false`,
-            true
-          );
-          mainWindow.webContents.executeJavaScript(
-            `document.querySelector('#cmdFieldDisabled').style.visibility = 'visible'`,
+            `document.querySelector('#cmdFieldDisabled').value = "${prediction}";
+            document.querySelector('#cmdFieldDisabled').disabled = false;
+            document.querySelector('#cmdFieldDisabled').style.visibility = 'visible';`,
             true
           );
         }

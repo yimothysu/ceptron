@@ -29,15 +29,9 @@ function createWindow() {
   });
 
   mainWindow.webContents.executeJavaScript(
-    `document.querySelector('#cmdFieldDisabled').value = "Enter command here"`,
-    true
-  );
-  mainWindow.webContents.executeJavaScript(
-    `document.querySelector('#cmdFieldDisabled').disabled = false`,
-    true
-  );
-  mainWindow.webContents.executeJavaScript(
-    `document.querySelector('#cmdFieldDisabled').style.visibility = 'visible'`,
+    `document.querySelector('#cmdFieldDisabled').value = "Enter command here";
+    document.querySelector('#cmdFieldDisabled').disabled = false;
+    document.querySelector('#cmdFieldDisabled').style.visibility = 'visible';`,
     true
   );
 
