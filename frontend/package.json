@@ -1,10 +1,11 @@
 {
-  "name": "frontend",
+  "name": "ceptron",
   "version": "1.0.0",
   "description": "A minimal Electron application",
   "main": "main.js",
   "scripts": {
-    "start": "electron ."
+    "start": "electron .",
+    "package-mac": "electron-packager . --overwrite --platform=darwin --arch=x64 --icon=views/logo.icns --prune=true --out=release-builds"
   },
   "keywords": [
     "Electron",
@@ -18,10 +19,10 @@
   "dependencies": {
     "axios": "^1.1.3",
     "dotenv": "^16.0.3",
-    "electron": "^21.2.0",
     "openai": "^3.0.1"
   },
   "devDependencies": {
-    "electron-packager": "^17.0.0"
+    "electron": "^21.3.1",
+    "electron-packager": "^17.1.1"
   }
 }
