@@ -8,6 +8,7 @@ const {
 const { processCommands } = require("./commands.js");
 const { cache } = require("./cache.js");
 const { history } = require("./history.js");
+const { password } = require("pg/lib/defaults.js");
 
 let historyIndex = 0;
 const commands = [
@@ -18,6 +19,7 @@ const commands = [
   "instruct",
   "image",
   "summarize",
+  "settings",
 ];
 let first = true;
 
@@ -42,15 +44,15 @@ function executeCommand(mainWindow, cb) {
           require("electron").shell.openExternal(output);
         } else {
           if (output.startsWith("Error: ")) {
-            if (command != "") {
+            if (command !== "") {
               createConfirmationWindow(output, err=true);
             }
-          } else if (output == "Cache Cleared!") {
+          } else if (output === "Cache Cleared!") {
             createConfirmationWindow(output);
-          } else if (output == "History Cleared!") {
+          } else if (output === "History Cleared!") {
             createConfirmationWindow(output);
             historyIndex = 0;
-          } else {
+          } else if (output !== "No Output"){
             // Fires after Summary API Call
             clipboard.writeText(output);
             createConfirmationWindow("Copied to Clipboard!");
@@ -70,17 +72,17 @@ function autoComplete(mainWindow) {
     .then((query) => {
       //console.log("querying: " + query);
       let autocomp = query;
-      if (query === "img") {
-        autocomp = "image ";
+      if (query === "") {
+        autocomp = "help";
       } else {
         commands.forEach((cmd) => {
           if (cmd.startsWith(query)) autocomp = cmd + " ";
         });
       }
       mainWindow.webContents.executeJavaScript(
-        `document.querySelector('#cmdField').value = "${autocomp};"
+        `document.querySelector('#cmdField').value = "${autocomp}";
         length = document.querySelector('#cmdField').value.length;
-        document.querySelector('#cmdField').setSelectionRange(length, length)`
+        document.querySelector('#cmdField').focus()`
       );
     });
 }

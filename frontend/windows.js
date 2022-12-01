@@ -38,15 +38,14 @@ function createHistory() {
     transparent: true,
   });
   historyWindow.loadFile("views/history.html");
-
   let index = 0;
   history
     .slice()
     .reverse()
     .forEach((item) => {
-      if (index < 8) {
+      if (index < history.length) {
         historyWindow.webContents.executeJavaScript(
-          `document.querySelector("#cmd${index++}").innerText = "${item}"`,
+          `document.querySelector("#commandHistory").insertAdjacentHTML("beforeend", "<div class='cmd' id='cmd${index++}'>${item}</div>")`,
           true
         );
       }
@@ -69,14 +68,14 @@ function createHistory() {
           .then((output) => {
             clipboard.writeText(output);
           });
-        createConfirmationWindow();
+        createConfirmationWindow("Copied to Clipboard!");
         historyWindow.close();
       } else if (input.key === "ArrowDown" || input.key === "ArrowUp") {
         historyWindow.webContents.executeJavaScript(
           `document.querySelector('#cmd${index}').style.backgroundColor = "white"`,
           true
         );
-        if (input.key === "ArrowDown" && index < 7) index++;
+        if (input.key === "ArrowDown" && index < history.length - 1) index++;
         else if (input.key === "ArrowUp" && index > 0) index--;
         historyWindow.webContents.executeJavaScript(
           `document.querySelector('#cmd${index}').style.backgroundColor = "lightblue"`,
@@ -112,12 +111,30 @@ function createHelpPage() {
   });
 }
 
+function createSettings() {
+  const screenDimensions = electron.screen.getPrimaryDisplay().size;
+  const windowWidth = Math.round(screenDimensions.width * 0.6);
+  const windowHeight = Math.round(screenDimensions.height * 0.5);
+
+  const helpWindow = new BrowserWindow({
+    width: windowWidth,
+    height: windowHeight,
+    webPreferences: {
+      preload: path.join(__dirname, "preload.js"),
+    },
+    transparent: true,
+    frame: false,
+  });
+  helpWindow.loadFile("views/settings.html");
+
+}
+
 function createConfirmationWindow(msg, err=false) {
   const screenDimensions = electron.screen.getPrimaryDisplay().size;
   const windowWidth = Math.round(screenDimensions.width * 0.6);
   const windowHeight = Math.round(screenDimensions.height * 0.11);
 
-  const copyWindow = new BrowserWindow({
+  const confirmationWindow = new BrowserWindow({
     width: windowWidth,
     height: windowHeight,
     webPreferences: {
@@ -126,31 +143,32 @@ function createConfirmationWindow(msg, err=false) {
     frame: false,
     transparent: true,
   });
-  copyWindow.loadFile("views/copy.html");
+  confirmationWindow.loadFile("views/confirm.html");
   setTimeout(() => {
-    copyWindow.focus();
+    confirmationWindow.focus();
   }, 200);
 
-  copyWindow.webContents.executeJavaScript(
+  confirmationWindow.webContents.executeJavaScript(
     `document.querySelector('#copiedToClipboard').textContent = "${msg}"`,
     true
   );
 
   if (err) {
-    copyWindow.webContents.executeJavaScript(
+    confirmationWindow.webContents.executeJavaScript(
       `document.querySelector('#copiedToClipboard').style.color = "red"`,
       true
     );
   }
 
   setTimeout(() => {
-    copyWindow.close();
+    confirmationWindow.close();
   }, 600);
 }
 
 module.exports = {
   createHistory,
   createHelpPage,
+  createSettings,
   createConfirmationWindow,
   createSpinner,
   destroySpinner,

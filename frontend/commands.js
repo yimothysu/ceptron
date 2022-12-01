@@ -5,7 +5,7 @@ const {
 } = require("./calls.js");
 const { cache } = require("./cache.js");
 const { history } = require("./history.js");
-const { createHistory, createHelpPage } = require("./windows.js");
+const { createHistory, createHelpPage, createSettings } = require("./windows.js");
 
 function splitFirstSpace(str) {
   const index = str.indexOf(" ");
@@ -21,7 +21,8 @@ const commandFunctions = new Map([
   ["prune", pruneCache],
   ["clear", clearHistory],
   ["help", createHelpPage],
-  ["history", createHistory]
+  ["history", createHistory],
+  ["settings", createSettings]
 ]);
 const cachable = [
   "image",
@@ -74,7 +75,7 @@ async function processCommands(command) {
     return cache.get(command);
   if(!commandFunctions.has(cmd))
     return "Error: Invalid Command";
-  return commandFunctions.get(cmd)(args);
+  return commandFunctions.get(cmd)(args) || "No Output";
 }
 
 module.exports = {

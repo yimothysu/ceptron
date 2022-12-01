@@ -94,6 +94,39 @@
   margin-left: 7%;
 }
 
+#settingsContainer {
+  margin-left: 5%;
+  margin-right: 5%;
+}
+
+#settingsBlock {
+  display: "block";
+  color: white;
+  font-size: 1.1em;
+}
+
+.settingsField {
+  width: 60%;
+  height: 74%;
+  font-size: 1em;
+  color: white;
+  outline: none;
+  border-color: transparent;
+  background-color: rgba(209, 206, 206, 0.8);
+  border-radius: 1px;
+}
+
+#confirmButton {
+  border: none;
+  color: black;
+  padding: 8px 10px;
+  text-align: center;
+  text-decoration: none;
+  font-size: 12px;
+  border-radius: 2px;
+  float: right;
+}
+
 #description {
   display: "block";
   color: white;
@@ -117,6 +150,7 @@
   color: black;
   font-size: 30px;
   background-color: white;
+  border: 0.5px solid #ff8e24;
   margin-top: 0;
   margin-bottom: 0;
 }
