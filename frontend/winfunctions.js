@@ -8,7 +8,6 @@ const {
 const { processCommands } = require("./commands.js");
 const { cache } = require("./cache.js");
 const { history } = require("./history.js");
-const { password } = require("pg/lib/defaults.js");
 
 let historyIndex = 0;
 const commands = [
