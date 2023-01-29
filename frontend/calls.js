@@ -51,7 +51,7 @@ async function generateSummary(url, sentence_count = 10) {
 
 async function generateTextCompletion(prompt, max_tokens = 500) {
   const configuration = new Configuration({
-    apiKey: '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',
+    apiKey: process.env.OPENAI_API_KEY,
   });
   const openai = new OpenAIApi(configuration);
   const response = await openai.createCompletion({
@@ -65,7 +65,7 @@ async function generateTextCompletion(prompt, max_tokens = 500) {
 
 async function generateCode(prompt, max_tokens = 2000) {
   const configuration = new Configuration({
-    apiKey: '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',
+    apiKey: process.env.OPENAI_API_KEY,
   });
   const openai = new OpenAIApi(configuration);
   const response = await openai.createCompletion({
