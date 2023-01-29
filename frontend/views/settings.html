@@ -5,17 +5,18 @@
     <!-- https://developer.mozilla.org/en-US/docs/Web/HTTP/CSP -->
     <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'">
     <link href="./styles.css" rel="stylesheet">
+    <script src="settingsrender.js"></script>
   </head>
+  <script>function logData() {console.log("hello")}</script>
   <body>
     <div id = "background">
       <div id = "title"><b>Settings</b></div>
       <div id="settingsContainer">
         <div id = "settingsBlock">API Keys</div>
         <div id = "description">OpenAI: <input class="settingsField" type="text" id="OpenAI" /></div>
-        <button id="confirmButton">Confirm Changes</button>
+        <button id="confirmButton" onclick="logData()">Confirm Changes</button>
         </div>
     </div>
     <!-- You can also require other files to run in this process -->
-    <script src="./renderer.js"></script>
   </body>
 </html>

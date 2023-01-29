@@ -2,6 +2,7 @@ const {
   generateImage,
   generateSummary,
   generateTextCompletion,
+  generateCode,
 } = require("./calls.js");
 const { cache } = require("./cache.js");
 const { history } = require("./history.js");
@@ -18,6 +19,7 @@ const commandFunctions = new Map([
   ["image", imageCommand],
   ["summarize", summarizeCommand],
   ["instruct", predictText],
+  ["code", codeComplete],
   ["prune", pruneCache],
   ["clear", clearHistory],
   ["help", createHelpPage],
@@ -56,6 +58,15 @@ function predictText(args) {
     return generateTextCompletion(prompt, max_tokens);
   }
   return generateTextCompletion(args);
+}
+
+function codeComplete(args) {
+  if (!isNaN(args[0])) {
+    let [tok, prompt] = splitFirstSpace(args);
+    let max_tokens = parseInt(tok);
+    return generateCode(prompt, max_tokens);
+  }
+  return generateCode(args);
 }
 
 function pruneCache() {

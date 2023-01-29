@@ -1,8 +1,7 @@
-const { clipboard, nativeImage } = require("electron");
+const { clipboard, nativeImage, shell } = require("electron");
 const {
   createHistory,
   createHelpPage,
-  createSpinner,
   createConfirmationWindow,
 } = require("./windows.js");
 const { processCommands } = require("./commands.js");
@@ -16,6 +15,7 @@ const commands = [
   "history",
   "help",
   "instruct",
+  "code",
   "image",
   "summarize",
   "settings",
@@ -40,7 +40,7 @@ function executeCommand(mainWindow, cb) {
         cache.set(command, output);
         let [cmd, args] = splitFirstSpace(command);
         if (cmd == "image") {
-          require("electron").shell.openExternal(output);
+          shell.openExternal(output);
         } else {
           if (output.startsWith("Error: ")) {
             if (command !== "") {

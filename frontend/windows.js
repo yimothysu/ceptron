@@ -3,27 +3,6 @@ const { BrowserWindow, clipboard } = require("electron");
 const path = require("path");
 const { history } = require("./history.js");
 
-function createSpinner() {
-  const screenDimensions = electron.screen.getPrimaryDisplay().size;
-  const windowWidth = Math.round(screenDimensions.width * 0.25);
-  const windowHeight = Math.round(screenDimensions.height * 0.25);
-  const spinnerWindow = new BrowserWindow({
-    width: windowWidth,
-    height: windowHeight,
-    webPreferences: {
-      preload: path.join(__dirname, "preload.js"),
-    },
-    frame: false,
-    transparent: true,
-  });
-  spinnerWindow.loadFile("views/spinner.html");
-  return spinnerWindow;
-}
-
-function destroySpinner(window) {
-  window.close();
-}
-
 function createHistory() {
   const screenDimensions = electron.screen.getPrimaryDisplay().size;
   const windowWidth = Math.round(screenDimensions.width * 0.6);
@@ -31,6 +10,7 @@ function createHistory() {
   const historyWindow = new BrowserWindow({
     width: windowWidth,
     height: windowHeight,
+    title: "History",
     webPreferences: {
       preload: path.join(__dirname, "preload.js"),
     },
@@ -94,6 +74,7 @@ function createHelpPage() {
   const helpWindow = new BrowserWindow({
     width: windowWidth,
     height: windowHeight,
+    title: "Help",
     webPreferences: {
       preload: path.join(__dirname, "preload.js"),
     },
@@ -116,16 +97,17 @@ function createSettings() {
   const windowWidth = Math.round(screenDimensions.width * 0.6);
   const windowHeight = Math.round(screenDimensions.height * 0.5);
 
-  const helpWindow = new BrowserWindow({
+  const settingsWindow = new BrowserWindow({
     width: windowWidth,
     height: windowHeight,
+    title: "Settings",
     webPreferences: {
       preload: path.join(__dirname, "preload.js"),
     },
     transparent: true,
     frame: false,
   });
-  helpWindow.loadFile("views/settings.html");
+  settingsWindow.loadFile("views/settings.html");
 
 }
 
@@ -170,6 +152,4 @@ module.exports = {
   createHelpPage,
   createSettings,
   createConfirmationWindow,
-  createSpinner,
-  destroySpinner,
 };

@@ -51,7 +51,7 @@ async function generateSummary(url, sentence_count = 10) {
 
 async function generateTextCompletion(prompt, max_tokens = 500) {
   const configuration = new Configuration({
-    apiKey: process.env.OPENAI_API_KEY,
+    apiKey: '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',
   });
   const openai = new OpenAIApi(configuration);
   const response = await openai.createCompletion({
@@ -63,8 +63,24 @@ async function generateTextCompletion(prompt, max_tokens = 500) {
   return prompt + response.data.choices[0].text;
 }
 
+async function generateCode(prompt, max_tokens = 2000) {
+  const configuration = new Configuration({
+    apiKey: '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',
+  });
+  const openai = new OpenAIApi(configuration);
+  const response = await openai.createCompletion({
+    model: "code-cushman-001",
+    prompt: prompt,
+    max_tokens: max_tokens,
+    temperature: 0,
+  });
+  console.log(response.data.choices);
+  return prompt + response.data.choices[0].text;
+}
+
 module.exports = {
   generateImage,
   generateSummary,
   generateTextCompletion,
+  generateCode
 };
